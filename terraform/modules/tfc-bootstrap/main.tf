@@ -3,22 +3,6 @@ data "tfe_oauth_client" "github" {
   service_provider = "github"
 }
 
-resource "tfe_workspace" "tfc_bootstrap" {
-  name              = "tfc-bootstrap"
-  description       = "The tfc-bootstrap module is responsible for initialising Terraform Cloud."
-  working_directory = "/terraform/modules/tfc-bootstrap/"
-  trigger_patterns  = ["/terraform/modules/tfc-bootstrap/**/*"]
-  vcs_repo {
-    identifier     = "publishing-platform/publishing-platform-infrastructure"
-    oauth_token_id = data.tfe_oauth_client.github.oauth_token_id
-  }
-}
-
-resource "tfe_workspace_settings" "tfc_bootstrap" {
-  workspace_id   = tfe_workspace.tfc_bootstrap.id
-  execution_mode = "local"
-}
-
 resource "tfe_project" "tfc_configuration" {
   name = "tfc-configuration"
 }
@@ -41,4 +25,6 @@ module "tfc-configuration" {
     branch         = "main"
     oauth_token_id = data.tfe_oauth_client.github.oauth_token_id
   }
+
+  depends_on = [tfe_project.tfc_configuration]
 }
