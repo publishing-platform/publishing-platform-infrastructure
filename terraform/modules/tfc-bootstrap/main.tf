@@ -1,8 +1,3 @@
-data "tfe_oauth_client" "github" {
-  organization     = var.organization
-  service_provider = "github"
-}
-
 resource "tfe_project" "tfc_configuration" {
   name = "tfc-configuration"
 }
