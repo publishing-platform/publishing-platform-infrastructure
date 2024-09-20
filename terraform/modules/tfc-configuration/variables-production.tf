@@ -2,7 +2,7 @@ module "variable-set-production" {
   source = "./variable-set"
 
   name         = "common-production"
-  organisation = var.organisation
+  organization = var.organization
   tfvars = {
     publishing_platform_environment = "production"
   }

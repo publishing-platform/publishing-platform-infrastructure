@@ -14,7 +14,7 @@ variable "priority" {
   description = "Should this variable set override others?"
 }
 
-variable "organisation" {
+variable "organization" {
   type        = string
   description = "Name of TFC Organization that the variable set will belong to."
 }
