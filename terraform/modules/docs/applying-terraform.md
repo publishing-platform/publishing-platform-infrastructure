@@ -2,7 +2,7 @@
 
 ## Bootstrapping Terraform Cloud
 
-The [`tfc-bootstrap`](../modules/tfc-bootstrap) module bootstraps Terraform Cloud and creates the `tfc-configuration` workspace which manages the other Terraform module workspaces.
+The [`tfc-bootstrap`](../tfc-bootstrap) module bootstraps Terraform Cloud and creates the `tfc-configuration` workspace which manages the other Terraform module workspaces.
 
 1. In a web browser login to Terraform Cloud and create a new workspace called tfc-bootstrap.
 2. Create a short lived API token (Account Settings > Tokens)
