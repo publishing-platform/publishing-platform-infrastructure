@@ -17,7 +17,7 @@ The [`tfc-bootstrap`](../modules/tfc-bootstrap) module bootstraps Terraform Clou
 5. Run terraform plan
 
     ```
-    $ terraform plan -ou tfc-bootstrap.tfplan
+    $ terraform plan -out tfc-bootstrap.tfplan
     ```
 
 6. Apply the plan
