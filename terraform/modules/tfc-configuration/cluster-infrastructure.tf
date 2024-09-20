@@ -21,7 +21,7 @@ module "cluster-infrastructure-production" {
   }
 
   variable_set_names = [
-    # "aws-credentials-production",
+    "aws-credentials-production",
     # "common",
     "common-production"
   ]
