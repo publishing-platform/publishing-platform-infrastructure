@@ -1,6 +1,6 @@
 resource "tfe_variable_set" "set" {
   name         = var.name
-  organization = var.organisaton
+  organisation = var.organisaton
   priority     = var.priority
   global       = false
 }

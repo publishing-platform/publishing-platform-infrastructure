@@ -15,6 +15,6 @@ variable "priority" {
 }
 
 variable "organisation" {
-  type = string
+  type        = string
   description = "Name of TFC Organization that the variable set will belong to."
 }
