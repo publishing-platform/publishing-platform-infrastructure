@@ -5,8 +5,8 @@ module "variable-set-production" {
   organization = var.organization
   tfvars = {
     publishing_platform_environment = "production"
-    
-    vpc_cidr                        = "10.13.0.0/16"
+
+    vpc_cidr = "10.13.0.0/16"
 
     eks_control_plane_subnets = {
       a = { az = "eu-west-1a", cidr = "10.13.19.0/28" }
@@ -24,6 +24,6 @@ module "variable-set-production" {
       a = { az = "eu-west-1a", cidr = "10.13.24.0/22" }
       b = { az = "eu-west-1b", cidr = "10.13.28.0/22" }
       c = { az = "eu-west-1c", cidr = "10.13.32.0/22" }
-    }    
+    }
   }
 }
