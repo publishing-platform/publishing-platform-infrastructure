@@ -1,0 +1,19 @@
+# Manages AWS resources relating to the Publishing Platform VPC.
+
+terraform {
+  cloud {
+    organization = "publishing-platform"
+    workspaces {
+      tags = ["vpc", "eks", "aws"]
+    }
+  }
+
+  required_version = "~> 1.5"
+
+  required_providers {
+    tfe = {
+      source  = "hashicorp/tfe"
+      version = "~> 0.55.0"
+    }
+  }
+}
