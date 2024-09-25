@@ -9,6 +9,11 @@ variable "publishing_platform_environment" {
   description = "Publishing Platform environment where resources are being deployed"
 }
 
+variable "vpc_cidr" {
+  type        = string
+  description = "The CIDR block for the VPC."
+}
+
 variable "eks_control_plane_subnets" {
   type        = map(object({ az = string, cidr = string }))
   description = "Map of {subnet_name: {az=<az>, cidr=<cidr>}} for the public subnets for the EKS cluster's apiserver."

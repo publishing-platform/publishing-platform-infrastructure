@@ -1,9 +1,25 @@
-# vpc.tf manages the subnets for the EKS cluster and their associated
-# paraphernalia such as NAT gateways and route tables. The VPC itself is
-# defined in ../vpc
-
 locals {
   route_create_timeout = "5m" # Same workaround as terraform-aws-vpc module.
+}
+
+# VPC and Internet Gateway
+
+resource "aws_vpc" "vpc" {
+  cidr_block           = var.vpc_cidr
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+
+  tags = {
+    Name = "${var.cluster_name}-${var.publishing_platform_environment}"
+  }
+}
+
+resource "aws_internet_gateway" "public" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = {
+    Name = "${var.cluster_name}-${var.publishing_platform_environment}"
+  }
 }
 
 # Control plane subnets and associated resources. The control plane subnets are
@@ -12,7 +28,7 @@ locals {
 
 resource "aws_subnet" "eks_control_plane" {
   for_each          = var.eks_control_plane_subnets
-  vpc_id            = data.tfe_outputs.vpc.nonsensitive_values.vpc_id
+  vpc_id            = aws_vpc.vpc.id
   cidr_block        = each.value.cidr
   availability_zone = each.value.az
   tags              = { Name = "${var.cluster_name}-eks-control-plane-${each.key}" }
@@ -20,7 +36,7 @@ resource "aws_subnet" "eks_control_plane" {
 
 resource "aws_route_table" "eks_control_plane" {
   for_each = var.eks_control_plane_subnets
-  vpc_id   = data.tfe_outputs.vpc.nonsensitive_values.vpc_id
+  vpc_id   = aws_vpc.vpc.id
   tags     = { Name = "${var.cluster_name}-eks-control-plane-${each.key}" }
 }
 
@@ -46,7 +62,7 @@ resource "aws_route_table_association" "eks_control_plane" {
 
 resource "aws_subnet" "eks_public" {
   for_each          = var.eks_public_subnets
-  vpc_id            = data.tfe_outputs.vpc.nonsensitive_values.vpc_id
+  vpc_id            = aws_vpc.vpc.id
   cidr_block        = each.value.cidr
   availability_zone = each.value.az
   tags = {
@@ -59,7 +75,7 @@ resource "aws_subnet" "eks_public" {
 }
 
 resource "aws_route_table" "eks_public" {
-  vpc_id = data.tfe_outputs.vpc.nonsensitive_values.vpc_id
+  vpc_id = aws_vpc.vpc.id
   tags   = { Name = "${var.cluster_name}-eks-public" }
 }
 
@@ -72,7 +88,7 @@ resource "aws_route_table_association" "eks_public" {
 resource "aws_route" "public_internet_gateway" {
   route_table_id         = aws_route_table.eks_public.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = data.tfe_outputs.vpc.nonsensitive_values.internet_gateway_id
+  gateway_id             = aws_internet_gateway.public.id
   timeouts { create = local.route_create_timeout }
 }
 
