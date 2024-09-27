@@ -110,4 +110,35 @@ resource "aws_route" "public_internet_gateway" {
 # Private subnets and associated resources. The private subnets contain the
 # worker nodes and the pods.
 
-# TODO...............................
+resource "aws_subnet" "eks_private" {
+  for_each          = var.eks_private_subnets
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = each.value.cidr
+  availability_zone = each.value.az
+  tags = {
+    Name = "${var.cluster_name}-eks-private-${each.key}"
+    # https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+    "kubernetes.io/role/internal-elb"           = "1"
+  }
+}
+
+resource "aws_route_table" "eks_private" {
+  for_each = var.eks_private_subnets
+  vpc_id   = aws_vpc.vpc.id
+  tags     = { Name = "${var.cluster_name}-eks-private-${each.key}" }
+}
+
+resource "aws_route_table_association" "eks_private" {
+  for_each       = var.eks_private_subnets
+  subnet_id      = aws_subnet.eks_private[each.key].id
+  route_table_id = aws_route_table.eks_private[each.key].id
+}
+
+# resource "aws_route" "eks_private_nat" {
+#   for_each               = var.eks_private_subnets
+#   route_table_id         = aws_route_table.eks_private[each.key].id
+#   destination_cidr_block = "0.0.0.0/0"
+#   nat_gateway_id         = aws_nat_gateway.eks[each.key].id
+#   timeouts { create = local.route_create_timeout }
+# }
