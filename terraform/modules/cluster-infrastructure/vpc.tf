@@ -46,15 +46,15 @@ resource "aws_route_table_association" "eks_control_plane" {
   route_table_id = aws_route_table.eks_control_plane[each.key].id
 }
 
-# resource "aws_route" "eks_control_plane_nat" {
-#   for_each               = var.eks_control_plane_subnets
-#   route_table_id         = aws_route_table.eks_control_plane[each.key].id
-#   destination_cidr_block = "0.0.0.0/0"
-#   nat_gateway_id         = aws_nat_gateway.eks[each.key].id
-#   timeouts {
-#     create = local.route_create_timeout
-#   }
-# }
+resource "aws_route" "eks_control_plane_nat" {
+  for_each               = var.eks_control_plane_subnets
+  route_table_id         = aws_route_table.eks_control_plane[each.key].id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.eks[each.key].id
+  timeouts {
+    create = local.route_create_timeout
+  }
+}
 
 # Public subnets and associated resources. The public subnets are used by
 # controllers in the cluster (such as aws-load-balancer-controller) for
@@ -92,20 +92,20 @@ resource "aws_route" "public_internet_gateway" {
   timeouts { create = local.route_create_timeout }
 }
 
-# resource "aws_eip" "eks_nat" {
-#   for_each = var.eks_public_subnets
-#   domain   = "vpc"
-#   tags     = { Name = "${var.cluster_name}-eks-nat-${each.key}" }
-#   # TODO: depends_on = [aws_internet_gateway.gw] once we've imported the IGW from govuk-aws.
-# }
+resource "aws_eip" "eks_nat" {
+  for_each   = var.eks_public_subnets
+  domain     = "vpc"
+  tags       = { Name = "${var.cluster_name}-eks-nat-${each.key}" }
+  depends_on = [aws_internet_gateway.public]
+}
 
-# resource "aws_nat_gateway" "eks" {
-#   for_each      = var.eks_public_subnets
-#   allocation_id = aws_eip.eks_nat[each.key].id
-#   subnet_id     = aws_subnet.eks_public[each.key].id
-#   tags          = { Name = "${var.cluster_name}-eks-${each.key}" }
-#   # TODO: depends_on = [aws_internet_gateway.gw] once we've imported the IGW from govuk-aws.
-# }
+resource "aws_nat_gateway" "eks" {
+  for_each      = var.eks_public_subnets
+  allocation_id = aws_eip.eks_nat[each.key].id
+  subnet_id     = aws_subnet.eks_public[each.key].id
+  tags          = { Name = "${var.cluster_name}-eks-${each.key}" }
+  depends_on    = [aws_internet_gateway.public]
+}
 
 # Private subnets and associated resources. The private subnets contain the
 # worker nodes and the pods.
@@ -135,10 +135,10 @@ resource "aws_route_table_association" "eks_private" {
   route_table_id = aws_route_table.eks_private[each.key].id
 }
 
-# resource "aws_route" "eks_private_nat" {
-#   for_each               = var.eks_private_subnets
-#   route_table_id         = aws_route_table.eks_private[each.key].id
-#   destination_cidr_block = "0.0.0.0/0"
-#   nat_gateway_id         = aws_nat_gateway.eks[each.key].id
-#   timeouts { create = local.route_create_timeout }
-# }
+resource "aws_route" "eks_private_nat" {
+  for_each               = var.eks_private_subnets
+  route_table_id         = aws_route_table.eks_private[each.key].id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.eks[each.key].id
+  timeouts { create = local.route_create_timeout }
+}
