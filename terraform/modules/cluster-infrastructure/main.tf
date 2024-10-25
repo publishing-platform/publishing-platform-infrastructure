@@ -86,15 +86,9 @@ resource "aws_iam_role_policy_attachment" "node" {
   role       = aws_iam_role.node.name
 }
 
-resource "aws_kms_key" "eks" {
-  description             = "EKS Secret Encryption Key"
-  deletion_window_in_days = 7
-  enable_key_rotation     = true
-}
-
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 20.0"
+  version = "~> 19.0"
 
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
@@ -118,7 +112,7 @@ module "eks" {
     resources        = ["secrets"]
   }
   create_kms_key                = false
-  kms_key_enable_default_policy = false
+  # kms_key_enable_default_policy = false
 
   # We're just using the cluster primary SG as created by EKS.
   create_cluster_security_group = false
@@ -136,4 +130,10 @@ module "eks" {
   }
 
   eks_managed_node_groups = local.main_managed_node_group
+}
+
+resource "aws_kms_key" "eks" {
+  description             = "EKS Secret Encryption Key"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
 }
