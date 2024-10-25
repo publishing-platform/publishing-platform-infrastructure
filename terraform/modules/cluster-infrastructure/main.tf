@@ -113,12 +113,12 @@ module "eks" {
     "api", "audit", "authenticator", "controllerManager", "scheduler"
   ]
 
-  cluster_encryption_config = {
-    provider_key_arn = aws_kms_key.eks.arn
-    resources        = ["secrets"]
-  }
-  create_kms_key                = false
-  kms_key_enable_default_policy = false
+  # cluster_encryption_config = {
+  #   provider_key_arn = aws_kms_key.eks.arn
+  #   resources        = ["secrets"]
+  # }
+  # create_kms_key                = false
+  # kms_key_enable_default_policy = false
 
   # We're just using the cluster primary SG as created by EKS.
   create_cluster_security_group = false
