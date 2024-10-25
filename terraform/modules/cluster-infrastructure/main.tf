@@ -124,7 +124,7 @@ module "eks" {
   create_cluster_security_group = false
   create_node_security_group    = false
 
-  authentication_mode = "CONFIG_MAP"
+  authentication_mode = "API_AND_CONFIG_MAP" # see https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3026
 
   eks_managed_node_group_defaults = {
     ami_type              = "AL2023_x86_64_STANDARD"
