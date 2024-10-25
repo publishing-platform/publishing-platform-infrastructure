@@ -127,13 +127,37 @@ module "eks" {
   # authentication_mode = "API_AND_CONFIG_MAP" # see https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3026
 
   eks_managed_node_group_defaults = {
-    ami_type              = "AL2023_x86_64_STANDARD"
-    capacity_type         = var.workers_default_capacity_type
-    subnet_ids            = [for s in aws_subnet.eks_private : s.id]
+    ami_type      = "AL2023_x86_64_STANDARD"
+    capacity_type = var.workers_default_capacity_type
+    subnet_ids    = [for s in aws_subnet.eks_private : s.id]
     # create_security_group = false
     # create_iam_role       = false
     # iam_role_arn          = aws_iam_role.node.arn
   }
 
-  eks_managed_node_groups = local.main_managed_node_group
+  eks_managed_node_groups = {
+    main = {
+      # name_prefix    = var.cluster_name
+      desired_size   = var.workers_size_desired
+      max_size       = var.workers_size_max
+      min_size       = var.workers_size_min
+      instance_types = var.workers_instance_types
+      # update_config  = { max_unavailable = 1 }
+      # block_device_mappings = {
+      #   xvda = {
+      #     device_name = "/dev/xvda"
+      #     ebs = {
+      #       volume_size           = var.node_disk_size
+      #       volume_type           = "gp3"
+      #       encrypted             = true
+      #       delete_on_termination = true
+      #     }
+      #   }
+      # }
+      # additional_tags = {
+      #   "k8s.io/cluster-autoscaler/enabled"             = "true"
+      #   "k8s.io/cluster-autoscaler/${var.cluster_name}" = "owned"
+      # }
+    }
+  }
 }
