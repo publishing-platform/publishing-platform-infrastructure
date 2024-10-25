@@ -168,4 +168,6 @@ module "eks_al2023" {
       desired_size = 2
     }
   }
+
+  enable_cluster_creator_admin_permissions = true
 }
