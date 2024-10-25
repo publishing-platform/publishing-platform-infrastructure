@@ -6,6 +6,9 @@ module "variable-set-production" {
   tfvars = {
     publishing_platform_environment = "production"
 
+    cluster_version               = "1.31"
+    cluster_log_retention_in_days = 7
+
     vpc_cidr = "10.13.0.0/16"
 
     eks_control_plane_subnets = {
