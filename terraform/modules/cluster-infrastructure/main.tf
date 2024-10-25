@@ -101,17 +101,17 @@ module "eks" {
   subnet_ids      = [for s in aws_subnet.eks_control_plane : s.id]
   vpc_id          = aws_vpc.vpc.id
 
-  cluster_addons = {
-    coredns    = { most_recent = true }
-    kube-proxy = { most_recent = true }
-    vpc-cni    = { most_recent = true }
-  }
+  # cluster_addons = {
+  #   coredns    = { most_recent = true }
+  #   kube-proxy = { most_recent = true }
+  #   vpc-cni    = { most_recent = true }
+  # }
 
-  cluster_endpoint_public_access         = true
-  cloudwatch_log_group_retention_in_days = var.cluster_log_retention_in_days
-  cluster_enabled_log_types = [
-    "api", "audit", "authenticator", "controllerManager", "scheduler"
-  ]
+  # cluster_endpoint_public_access         = true
+  # cloudwatch_log_group_retention_in_days = var.cluster_log_retention_in_days
+  # cluster_enabled_log_types = [
+  #   "api", "audit", "authenticator", "controllerManager", "scheduler"
+  # ]
 
   # cluster_encryption_config = {
   #   provider_key_arn = aws_kms_key.eks.arn
@@ -121,16 +121,16 @@ module "eks" {
   # kms_key_enable_default_policy = false
 
   # We're just using the cluster primary SG as created by EKS.
-  create_cluster_security_group = false
-  create_node_security_group    = false
+  # create_cluster_security_group = false
+  # create_node_security_group    = false
 
-  authentication_mode = "API_AND_CONFIG_MAP" # see https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3026
+  # authentication_mode = "API_AND_CONFIG_MAP" # see https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3026
 
   eks_managed_node_group_defaults = {
     ami_type              = "AL2023_x86_64_STANDARD"
     capacity_type         = var.workers_default_capacity_type
     subnet_ids            = [for s in aws_subnet.eks_private : s.id]
-    create_security_group = false
+    # create_security_group = false
     # create_iam_role       = false
     # iam_role_arn          = aws_iam_role.node.arn
   }
