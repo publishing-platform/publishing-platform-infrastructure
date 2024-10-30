@@ -40,6 +40,7 @@ data "aws_iam_policy_document" "tfc_policy" {
     actions = [
       "acm:*",
       "apigateway:*",
+      "athena:*",
       "autoscaling:*",
       "cloudfront:*",
       "cloudwatch:*",
@@ -51,10 +52,12 @@ data "aws_iam_policy_document" "tfc_policy" {
       "elasticfilesystem:*",
       "es:*",
       "events:*",
+      "glue:*",
       "iam:*InstanceProfile*",
       "iam:*CloudFrontPublicKey*",
       "iam:*OpenIDConnectProvider*",
       "iam:*Policy",
+      "iam:*Policies",
       "iam:*PolicyVersion*",
       "iam:*RolePolicies",
       "iam:*RoleTags",
@@ -126,7 +129,6 @@ data "aws_iam_policy_document" "tfc_policy" {
       "iam:*Login*",
       "iam:*Group*",
       "iam:*PermissionsBoundary*",
-      "iam:*User*",
       "iam:CreateServiceLinkedRole",
     ]
   }
