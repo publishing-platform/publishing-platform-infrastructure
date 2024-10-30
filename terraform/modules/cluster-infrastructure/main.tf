@@ -130,6 +130,21 @@ module "eks" {
   }
 
   eks_managed_node_groups = local.main_managed_node_group
+
+  access_entries = {
+    admin = {
+      principal_arn = "arn:aws:iam::761018850167:role/aws-reserved/sso.amazonaws.com/eu-west-2/AWSReservedSSO_AdministratorAccess_b808c90f40c2e2f9" # TODO: need to dynamically retrieve arn
+
+      policy_associations = {
+        this = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
+    }
+  }
 }
 
 resource "aws_kms_key" "eks" {
