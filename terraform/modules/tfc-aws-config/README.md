@@ -25,6 +25,8 @@ You must apply this module locally.
     You can then select the corrsponding workspace and run `terraform apply`.
 
     ```    
+    $ cd terraform/modules/tfc-aws-config
+    $ terraform init
     $ terraform workspace select tfc-aws-config-production
     $ terraform apply -var=publishing_platform_environment=production
     ```
