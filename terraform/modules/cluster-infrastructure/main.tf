@@ -1,4 +1,6 @@
 locals {
+  cluster_services_namespace = "cluster-services"
+
   main_managed_node_group = {
     main = {
       name_prefix    = var.cluster_name
