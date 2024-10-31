@@ -133,7 +133,7 @@ module "eks" {
 
   access_entries = {
     admin = {
-      principal_arn = "arn:aws:iam::761018850167:role/aws-reserved/sso.amazonaws.com/eu-west-2/AWSReservedSSO_AdministratorAccess_b808c90f40c2e2f9" # TODO: need to dynamically retrieve arn
+      principal_arn = data.aws_iam_roles.admin.arns[0]
 
       policy_associations = {
         this = {
