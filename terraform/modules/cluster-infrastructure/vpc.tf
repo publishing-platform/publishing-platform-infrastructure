@@ -50,7 +50,7 @@ resource "aws_route" "eks_control_plane_nat" {
   for_each               = var.eks_control_plane_subnets
   route_table_id         = aws_route_table.eks_control_plane[each.key].id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.eks.id # TODO: when ready to release, replace with - aws_nat_gateway.eks[each.key].id
+  nat_gateway_id         = aws_nat_gateway.eks[each.key].id
   timeouts {
     create = local.route_create_timeout
   }
@@ -92,43 +92,20 @@ resource "aws_route" "public_internet_gateway" {
   timeouts { create = local.route_create_timeout }
 }
 
-#############################################################################
-# During development a single NAT Gateway is created and placed in the  
-# first public subnet. This NAT Gateway is shared by all private subnets
-# in order to save money during development.
-#      
-# TODO: delete below when ready for release.
 resource "aws_eip" "eks_nat" {
+  for_each   = var.eks_public_subnets
   domain     = "vpc"
-  tags       = { Name = "${var.cluster_name}-eks-nat" }
+  tags       = { Name = "${var.cluster_name}-eks-nat-${each.key}" }
   depends_on = [aws_internet_gateway.public]
 }
 
 resource "aws_nat_gateway" "eks" {
-  allocation_id = aws_eip.eks_nat.id
-  subnet_id     = aws_subnet.eks_public[keys(var.eks_public_subnets)[0]].id # place NAT gateway in first public subnet
-  tags          = { Name = "${var.cluster_name}-eks" }
+  for_each      = var.eks_public_subnets
+  allocation_id = aws_eip.eks_nat[each.key].id
+  subnet_id     = aws_subnet.eks_public[each.key].id
+  tags          = { Name = "${var.cluster_name}-eks-${each.key}" }
   depends_on    = [aws_internet_gateway.public]
 }
-#############################################################################
-# TODO: uncomment below when ready for release.  This creates a NAT Gateway 
-#       for each private subnet.
-#
-# resource "aws_eip" "eks_nat" {
-#   for_each   = var.eks_public_subnets
-#   domain     = "vpc"
-#   tags       = { Name = "${var.cluster_name}-eks-nat-${each.key}" }
-#   depends_on = [aws_internet_gateway.public]
-# }
-
-# resource "aws_nat_gateway" "eks" {
-#   for_each      = var.eks_public_subnets
-#   allocation_id = aws_eip.eks_nat[each.key].id
-#   subnet_id     = aws_subnet.eks_public[each.key].id
-#   tags          = { Name = "${var.cluster_name}-eks-${each.key}" }
-#   depends_on    = [aws_internet_gateway.public]
-# }
-#############################################################################
 
 # Private subnets and associated resources. The private subnets contain the
 # worker nodes and the pods.
@@ -162,6 +139,6 @@ resource "aws_route" "eks_private_nat" {
   for_each               = var.eks_private_subnets
   route_table_id         = aws_route_table.eks_private[each.key].id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.eks.id # TODO: when ready to release, replace with - aws_nat_gateway.eks[each.key].id
+  nat_gateway_id         = aws_nat_gateway.eks[each.key].id
   timeouts { create = local.route_create_timeout }
 }
