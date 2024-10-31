@@ -137,7 +137,7 @@ module "eks" {
 
       policy_associations = {
         this = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy" # https://docs.aws.amazon.com/eks/latest/userguide/cluster-auth.html, https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html
           access_scope = {
             type = "cluster"
           }
