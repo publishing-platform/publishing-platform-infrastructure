@@ -136,7 +136,7 @@ module "eks" {
 
   access_entries = {
     admin = {
-      principal_arn = data.aws_iam_roles.admin.arns[0]
+      principal_arn = one(data.aws_iam_roles.admin.arns)
 
       policy_associations = {
         this = {
