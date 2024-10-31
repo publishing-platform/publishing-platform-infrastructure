@@ -106,7 +106,7 @@ resource "aws_eip" "eks_nat" {
 
 resource "aws_nat_gateway" "eks" {
   allocation_id = aws_eip.eks_nat.id
-  subnet_id     = aws_subnet.eks_public[0].id # place NAT gateway in first public subnet
+  subnet_id     = aws_subnet.eks_public[keys(var.eks_public_subnets)[0]].id # place NAT gateway in first public subnet
   tags          = { Name = "${var.cluster_name}-eks" }
   depends_on    = [aws_internet_gateway.public]
 }
