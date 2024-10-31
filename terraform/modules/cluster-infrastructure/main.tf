@@ -1,5 +1,6 @@
 locals {
   cluster_services_namespace = "cluster-services"
+  secrets_prefix             = "publishing-platform"
 
   main_managed_node_group = {
     main = {
