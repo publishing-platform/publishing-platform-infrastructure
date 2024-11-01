@@ -5,6 +5,7 @@ module "variable-set-production" {
   organization = var.organization
   tfvars = {
     publishing_platform_environment = "production"
+    publishing_service_domain       = "publishing.service.publishing-platform.co.uk"
 
     cluster_version               = "1.31"
     cluster_log_retention_in_days = 7
