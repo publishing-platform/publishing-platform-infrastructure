@@ -96,7 +96,7 @@ module "eks" {
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
   subnet_ids      = [for s in aws_subnet.eks_control_plane : s.id]
-  vpc_id          = aws_vpc.vpc.id
+  vpc_id          = data.tfe_outputs.vpc.nonsensitive_values.vpc_id
 
   cluster_addons = {
     coredns    = { most_recent = true }

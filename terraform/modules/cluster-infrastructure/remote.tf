@@ -6,3 +6,8 @@ data "aws_iam_roles" "admin" {
 data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}
+
+data "tfe_outputs" "vpc" {
+  organization = "publishing-platform"
+  workspace    = "vpc-${var.publishing_platform_environment}"
+}
