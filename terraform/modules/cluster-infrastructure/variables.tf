@@ -75,18 +75,6 @@ variable "node_disk_size" {
   default     = 20
 }
 
-variable "external_root_domain_name" {
-  type        = string
-  description = "Route53 External Root Domain Name"
-  default     = "publishing-platform.digital"
-}
-
-variable "internal_root_domain_name" {
-  type        = string
-  description = "Route53 External Root Domain Name"
-  default     = "publishing-platform-internal.digital"
-}
-
 variable "external_dns_subdomain" {
   type        = string
   description = "Subdomain name for a Route53 zone which will be created underneath external_root_zone (e.g. 'eks' to be created underneath production.publishing-platform.digital), for use by the external-dns addon. external-dns will create records for ALBs/NLBs created by Ingresses and Service[type=LoadBalancer] in this zone."

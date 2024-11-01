@@ -5,7 +5,7 @@
 
 locals {
   external_dns_service_account_name = "external-dns"
-  external_dns_zone_name            = "${var.external_dns_subdomain}.${var.publishing_platform_environment}.${var.external_root_domain_name}"
+  external_dns_zone_name            = trimsuffix("${var.external_dns_subdomain}.${var.publishing_platform_environment}.${data.tfe_outputs.vpc.nonsensitive_values.external_root_domain_name}", ".")
 }
 
 module "external_dns_iam_role" {
@@ -51,7 +51,7 @@ resource "aws_route53_zone" "cluster_public" {
 }
 
 resource "aws_route53_record" "cluster_public_ns_parent" {
-  zone_id = aws_route53_zone.external_root_zone.zone_id
+  zone_id = data.tfe_outputs.vpc.nonsensitive_values.external_root_zone_id
   name    = var.external_dns_subdomain
   type    = "NS"
   ttl     = 21600
@@ -69,7 +69,7 @@ resource "aws_route53_record" "cluster_public_soa" {
 
 resource "aws_acm_certificate" "cluster_public" {
   domain_name               = "*.${local.external_dns_zone_name}"
-  subject_alternative_names = ["*.${var.publishing_platform_environment}.${var.publishing_service_domain}"]
+  subject_alternative_names = ["*.${var.publishing_service_domain}"]
   validation_method         = "DNS"
   lifecycle { create_before_destroy = true }
   tags = { Name = local.external_dns_zone_name }
