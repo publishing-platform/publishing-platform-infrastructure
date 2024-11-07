@@ -35,7 +35,8 @@ module "variable-set-production" {
 module "variable-set-ecr-production" {
   source = "./variable-set"
 
-  name = "ecr-production"
+  name         = "ecr-production"
+  organization = var.organization
   tfvars = {
   }
 }
