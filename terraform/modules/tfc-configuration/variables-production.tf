@@ -56,5 +56,6 @@ resource "tfe_variable" "ecr-puller-arns" {
       # "arn:aws:iam::xxxxxxxxxxxx:root", # Test
     ]
   )
-  hcl = true
+  hcl        = true
+  depends_on = [module.variable-set-ecr-production]
 }
