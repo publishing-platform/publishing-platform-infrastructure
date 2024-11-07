@@ -27,4 +27,6 @@ module "ecr-production" {
     "common-production",
     "ecr-production"
   ]
+
+  depends_on = [module.variable-set-ecr-production]
 }
