@@ -38,7 +38,6 @@ module "variable-set-ecr-production" {
   name         = "ecr-production"
   organization = var.organization
   tfvars = {
-    emails = ["publishing-platform-engineering+ecr-inspector@publishing-platform.co.uk"]
   }
 }
 
