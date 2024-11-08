@@ -19,21 +19,21 @@ resource "github_team" "publishing_platform" {
 }
 
 resource "github_team_repository" "publishing_platform_ci_bots_admin_repos" {
-  for_each   = data.github_repositories.publishing_platform.names
+  for_each   = toset(data.github_repositories.publishing_platform.names)
   repository = each.value
   team_id    = github_team.publishing_platform_ci_bots.id
   permission = "admin"
 }
 
 resource "github_team_repository" "publishing_platform_production_admin_repos" {
-  for_each   = data.github_repositories.publishing_platform.names
+  for_each   = toset(data.github_repositories.publishing_platform.names)
   repository = each.value
   team_id    = github_team.publishing_platform_production_admin.id
   permission = "admin"
 }
 
 resource "github_team_repository" "publishing_platform_repos" {
-  for_each   = data.github_repositories.publishing_platform.names
+  for_each   = toset(data.github_repositories.publishing_platform.names)
   repository = each.value
   team_id    = github_team.publishing_platform.id
   permission = "push"
