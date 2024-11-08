@@ -12,4 +12,6 @@ resource "aws_ecr_pull_through_cache_rule" "github" {
   ecr_repository_prefix = "github"
   upstream_registry_url = "ghcr.io"
   credential_arn        = aws_secretsmanager_secret.ecr_pullthroughcache_github.arn
+
+  depends_on = [aws_secretsmanager_secret.ecr_pullthroughcache_github]
 }
