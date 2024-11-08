@@ -149,7 +149,7 @@ resource "tfe_variable" "tfc_var_aws_provider_auth" {
   value           = "true"
   category        = "env"
   description     = "Configures Terraform Cloud to authenticate with AWS using dynamic credentials"
-  variable_set_id = tfe_variable_set.variable_set.id
+  variable_set_id = data.tfe_variable_set.variable_set.id
 }
 
 resource "tfe_variable" "tfc_var_aws_run_role_name" {
