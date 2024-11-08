@@ -139,8 +139,9 @@ resource "aws_iam_policy" "tfc_policy" {
   policy      = data.aws_iam_policy_document.tfc_policy.json
 }
 
-resource "tfe_variable_set" "variable_set" {
-  name = "aws-credentials-${var.publishing_platform_environment}"
+data "tfe_variable_set" "variable_set" {
+  name         = "aws-credentials-${var.publishing_platform_environment}"
+  organization = var.organization
 }
 
 resource "tfe_variable" "tfc_var_aws_provider_auth" {
