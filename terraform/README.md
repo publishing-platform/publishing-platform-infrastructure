@@ -3,9 +3,9 @@
 ## Applying Terraform
 When turning up from scratch, deploy the modules in this order:
 
-1. [`tfc-aws-config`](./modules/tfc-aws-config/)
-2. [`tfc-bootstrap`](./modules/tfc-bootstrap/)
-3. [`tfc-configuration`](./modules/tfc-configuration/)
+1. [`tfc-bootstrap`](./modules/tfc-bootstrap/) (execute locally)
+2. [`tfc-configuration`](./modules/tfc-configuration/)
+3. [`tfc-aws-config`](./modules/tfc-aws-config/) (execute locally)
 4. [`vpc`](./modules/vpc/)
 5. [`github`](./modules/github/)
 6. [`ecr`](./modules/ecr/)

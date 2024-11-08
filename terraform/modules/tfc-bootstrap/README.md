@@ -2,6 +2,8 @@
 
 The `tfc-bootstrap` module bootstraps Terraform Cloud and creates the `tfc-configuration` workspace which manages the other Terraform module workspaces.
 
+You must apply this module locally.
+
 1. In a web browser login to Terraform Cloud and create a new workspace called tfc-bootstrap.
 2. In your terminal login to Terraform Cloud
 

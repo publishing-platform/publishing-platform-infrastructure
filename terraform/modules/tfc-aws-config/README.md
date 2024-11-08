@@ -4,15 +4,12 @@ The `tfc-aws-config` module sets up the OpenID Connect authentication and AWS IA
 
 You must apply this module locally.
 
-1. In a web browser login to Terraform Cloud and create a new workspace for each environment, e.g. `tfc-aws-config-test`, `tfc-aws-config-staging`, `tfc-aws-config-production`.
-2. Set the execution mode of each workspace to Local
-3. Tag each workspace with `tfc`, `aws`, and `configuration`
-4. In your terminal login to Terraform Cloud
+1. In your terminal login to Terraform Cloud
 
     ```
     $ terraform login
     ```
-5. For each environment (e.g. test, staging, production) you will need to provide credentials for the corresponding AWS account. This can be done by setting environment variables, e.g. 
+2. For each environment (e.g. test, staging, production) you will need to provide credentials for the corresponding AWS account. This can be done by setting environment variables, e.g. 
 
     ```
     $ export AWS_ACCESS_KEY_ID="xxxxx"
@@ -22,7 +19,7 @@ You must apply this module locally.
 
     or using the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html#sso-configure-profile-token-auto-sso).
 
-    You can then select the corrsponding workspace and run `terraform apply`.
+3. You can then select the corresponding workspace and run `terraform apply`.
 
     ```    
     $ cd terraform/modules/tfc-aws-config
