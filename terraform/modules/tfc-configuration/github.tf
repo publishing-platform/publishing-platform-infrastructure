@@ -28,5 +28,9 @@ module "github-production" {
     "github-production"
   ]
 
-  depends_on = [module.variable-set-aws-credentials-production, module.variable-set-github-production]
+  depends_on = [
+    module.variable-set-aws-credentials-production,
+    module.variable-set-production,
+    module.variable-set-github-production
+  ]
 }

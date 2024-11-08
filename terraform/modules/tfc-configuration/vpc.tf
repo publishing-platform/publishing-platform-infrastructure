@@ -25,4 +25,9 @@ module "vpc-production" {
     # "common",
     "common-production"
   ]
+
+  depends_on = [
+    module.variable-set-aws-credentials-production,
+    module.variable-set-production
+  ]
 }
