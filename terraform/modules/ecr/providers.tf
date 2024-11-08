@@ -11,7 +11,12 @@ provider "aws" {
   }
 }
 
-# provider "github" {
-#   owner = "publishing-platform"
-#   token = data.aws_secretsmanager_secret_version.github-token.secret_string
-# }
+provider "github" {
+  owner = "publishing-platform"
+
+  app_auth {
+    id              = var.github_app_id              # or `GITHUB_APP_ID`
+    installation_id = var.github_app_installation_id # or `GITHUB_APP_INSTALLATION_ID`
+    pem_file        = var.github_app_pem_file        # or `GITHUB_APP_PEM_FILE`
+  }
+}
