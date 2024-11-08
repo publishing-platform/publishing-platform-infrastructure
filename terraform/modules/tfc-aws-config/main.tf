@@ -157,5 +157,5 @@ resource "tfe_variable" "tfc_var_aws_run_role_name" {
   value           = aws_iam_role.tfc_role.arn
   category        = "env"
   description     = "The ARN of the role to assume in AWS"
-  variable_set_id = tfe_variable_set.variable_set.id
+  variable_set_id = data.tfe_variable_set.variable_set.id
 }
