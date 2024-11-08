@@ -25,8 +25,9 @@ module "ecr-production" {
     "aws-credentials-production",
     # "common",
     "common-production",
-    "ecr-production"
+    "ecr-production",
+    "github-production"
   ]
 
-  depends_on = [module.variable-set-ecr-production]
+  depends_on = [module.variable-set-ecr-production, module.variable-set-github-production]
 }

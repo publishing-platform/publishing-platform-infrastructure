@@ -57,3 +57,12 @@ resource "tfe_variable" "ecr-puller-arns" {
   )
   hcl = true
 }
+
+module "variable-set-github-production" {
+  source = "./variable-set"
+
+  name         = "github-production"
+  organization = var.organization
+  tfvars = {
+  }
+}
