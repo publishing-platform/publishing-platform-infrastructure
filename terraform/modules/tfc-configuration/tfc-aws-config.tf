@@ -10,5 +10,5 @@ module "tfc-aws-config-production" {
   execution_mode      = "local"
   global_remote_state = true
 
-  project_name = "publishing-platform-infrastructure"
+  project_name = "tfc-configuration"
 }
