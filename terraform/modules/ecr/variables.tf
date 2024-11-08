@@ -24,3 +24,8 @@ variable "github_app_pem_file" {
   description = "The private key to sign access token requests."
   sensitive   = true
 }
+
+variable "puller_arns" {
+  type        = list(string)
+  description = "List of IAM principals who should be authorised to pull from this registry."
+}
