@@ -11,6 +11,7 @@ module "github-production" {
   working_directory   = "/terraform/modules/github/"
   trigger_patterns    = ["/terraform/modules/github/**/*"]
   global_remote_state = true
+  allow_destroy_plan = false
 
   project_name = "publishing-platform-infrastructure"
 
