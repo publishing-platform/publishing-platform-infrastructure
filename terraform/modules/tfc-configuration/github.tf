@@ -11,7 +11,7 @@ module "github-production" {
   working_directory   = "/terraform/modules/github/"
   trigger_patterns    = ["/terraform/modules/github/**/*"]
   global_remote_state = true
-  allow_destroy_plan = false
+  allow_destroy_plan  = false
 
   project_name = "publishing-platform-infrastructure"
 
@@ -28,5 +28,5 @@ module "github-production" {
     "github-production"
   ]
 
-  depends_on = [module.variable-set-github-production]
+  depends_on = [module.variable-set-aws-credentials-production, module.variable-set-github-production]
 }
