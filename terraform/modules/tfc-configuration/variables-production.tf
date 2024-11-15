@@ -75,3 +75,75 @@ module "variable-set-aws-credentials-production" {
   tfvars = {
   }
 }
+
+module "variable-set-rds-production" {
+  source = "./variable-set"
+
+  name         = "rds-production"
+  organization = var.organization
+  tfvars = {
+    backup_retention_period = 7
+    skip_final_snapshot     = false
+    multi_az                = true
+    apply_immediately       = true
+    deletion_protection     = true
+
+    databases = {
+      # in production each app would have its own database instance
+      # e.g.
+
+      # content_store = {
+      #   engine         = "postgres"
+      #   engine_version = "13"
+      #   engine_params = {
+      #     log_min_duration_statement = { value = 10000 }
+      #     log_statement              = { value = "all" }
+      #     deadlock_timeout           = { value = 2500 }
+      #     log_lock_waits             = { value = 1 }
+      #   }
+      #   engine_params_family         = "postgres14"
+      #   name                         = "content-store"
+      #   allocated_storage            = 1000
+      #   instance_class               = "db.m6g.2xlarge"
+      #   performance_insights_enabled = true
+      #   freestoragespace_threshold   = 10737418240
+      #   project                      = "Publishing Platform"
+      # }
+
+      # publisher = {
+      #   engine         = "postgres"
+      #   engine_version = "13"
+      #   engine_params = {
+      #     log_min_duration_statement = { value = 10000 }
+      #     log_statement              = { value = "all" }
+      #     deadlock_timeout           = { value = 2500 }
+      #     log_lock_waits             = { value = 1 }
+      #   }
+      #   engine_params_family         = "postgres13"
+      #   name                         = "publisher"
+      #   allocated_storage            = 100
+      #   instance_class               = "db.t4g.medium"
+      #   performance_insights_enabled = true
+      #   freestoragespace_threshold   = 10737418240
+      #   project                      = "Publishing Platform"
+      # }      
+      publishing_platform = {
+        engine         = "postgres"
+        engine_version = "13"
+        engine_params = {
+          log_min_duration_statement = { value = 10000 }
+          log_statement              = { value = "all" }
+          deadlock_timeout           = { value = 2500 }
+          log_lock_waits             = { value = 1 }
+        }
+        engine_params_family         = "postgres13"
+        name                         = "publishing_platform"
+        allocated_storage            = 20
+        instance_class               = "db.t4g.small"
+        performance_insights_enabled = true
+        freestoragespace_threshold   = 10737418240 # bytes (10 GB)
+        project                      = "Publishing Platform"
+      }
+    }
+  }
+}
