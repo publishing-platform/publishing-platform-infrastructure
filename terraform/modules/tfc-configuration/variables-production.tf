@@ -82,11 +82,11 @@ module "variable-set-rds-production" {
   name         = "rds-production"
   organization = var.organization
   tfvars = {
-    backup_retention_period = 7
-    skip_final_snapshot     = false
-    multi_az                = true
-    apply_immediately       = false
-    deletion_protection     = true
+    backup_retention_period = 0     # 7 in production
+    skip_final_snapshot     = true  # false in production
+    multi_az                = false # true in production
+    apply_immediately       = true  # false in production
+    deletion_protection     = false # true in production
 
     databases = {
       # in production each app would have its own database instance
