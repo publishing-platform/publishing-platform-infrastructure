@@ -85,7 +85,7 @@ module "variable-set-rds-production" {
     backup_retention_period = 7
     skip_final_snapshot     = false
     multi_az                = true
-    apply_immediately       = true
+    apply_immediately       = false
     deletion_protection     = true
 
     databases = {
