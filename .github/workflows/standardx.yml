@@ -6,7 +6,7 @@ on:
       files:
         description: 'Files(s) or glob(s) to check'
         required: false
-        default: "'app/javascripts/**/*.js'"
+        default: "'app/javascript/**/*.js'"
         type: string
 
 jobs:
