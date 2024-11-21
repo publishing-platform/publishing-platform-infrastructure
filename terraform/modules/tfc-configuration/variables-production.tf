@@ -29,6 +29,12 @@ module "variable-set-production" {
       b = { az = "eu-west-2b", cidr = "10.13.28.0/22" }
       c = { az = "eu-west-2c", cidr = "10.13.32.0/22" }
     }
+
+    rds_private_subnets = {
+      a = { az = "eu-west-2a", cidr = "10.13.40.0/24" }
+      b = { az = "eu-west-2b", cidr = "10.13.41.0/24" }
+      c = { az = "eu-west-2c", cidr = "10.13.42.0/24" }
+    }    
   }
 }
 
@@ -144,12 +150,6 @@ module "variable-set-rds-production" {
         freestoragespace_threshold   = 10737418240 # bytes (10 GB)
         project                      = "Publishing Platform"
       }
-    }
-
-    rds_private_subnets = {
-      a = { az = "eu-west-2a", cidr = "10.13.40.0/24" }
-      b = { az = "eu-west-2b", cidr = "10.13.41.0/24" }
-      c = { az = "eu-west-2c", cidr = "10.13.42.0/24" }
     }
   }
 }
