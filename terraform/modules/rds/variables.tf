@@ -79,7 +79,7 @@ variable "terraform_delete_rds_timeout" {
   default     = "2h"
 }
 
-var "rds_alerts_email_address" {
+variable "rds_alerts_email_address" {
   type        = string
   description = "The email address to send RDS alerts to."
 }
