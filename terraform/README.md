@@ -10,4 +10,5 @@ When turning up from scratch, deploy the modules in this order:
 5. [`github`](./modules/github/)
 6. [`ecr`](./modules/ecr/)
 5. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
-6. TODO
+6. [`rds`](./modules/rds/)
+7. TODO
