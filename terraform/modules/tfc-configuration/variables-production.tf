@@ -34,7 +34,7 @@ module "variable-set-production" {
       a = { az = "eu-west-2a", cidr = "10.13.40.0/24" }
       b = { az = "eu-west-2b", cidr = "10.13.41.0/24" }
       c = { az = "eu-west-2c", cidr = "10.13.42.0/24" }
-    }    
+    }
   }
 }
 
