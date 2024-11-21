@@ -137,7 +137,7 @@ module "variable-set-rds-production" {
           log_lock_waits             = { value = 1 }
         }
         engine_params_family         = "postgres13"
-        name                         = "publishing_platform"
+        name                         = "publishing-platform"
         allocated_storage            = 20
         instance_class               = "db.t4g.small"
         performance_insights_enabled = true
