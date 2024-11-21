@@ -22,14 +22,12 @@ module "github-production" {
   }
 
   variable_set_names = [
-    "aws-credentials-production",
     # "common",
     "common-production",
     "github-production"
   ]
 
   depends_on = [
-    module.variable-set-aws-credentials-production,
     module.variable-set-production,
     module.variable-set-github-production
   ]
