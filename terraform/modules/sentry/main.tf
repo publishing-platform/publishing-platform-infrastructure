@@ -1,5 +1,5 @@
 resource "sentry_project" "publishing_platform" {
-  for_each = local.sentry_projects
+  for_each = toset(local.sentry_projects)
 
   organization = "publishing-platform"
 
