@@ -20,13 +20,4 @@ module "sentry-production" {
     branch         = "main"
     oauth_token_id = data.tfe_oauth_client.github.oauth_token_id
   }
-
-  variable_set_names = [
-    # "common",
-    "common-production"
-  ]
-
-  depends_on = [
-    module.variable-set-production
-  ]
 }
