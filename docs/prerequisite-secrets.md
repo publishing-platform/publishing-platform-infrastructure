@@ -94,7 +94,7 @@ In addition, there are
    {
      "clientID": "<secret_1>",
      "clientSecret": "<secret_2>",
-     :cookieSecret": "<secret_3>"
+     "cookieSecret": "<secret_3>"
    }
    ```
 
@@ -105,7 +105,7 @@ In addition, there are
   {
     "clientID": "<secret_1>",
     "clientSecret": "<secret_2>",
-    cookieSecret: <secret_3>
+    "cookieSecret: <secret_3>
   }
   ```
 
