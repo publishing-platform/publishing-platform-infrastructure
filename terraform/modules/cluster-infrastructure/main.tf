@@ -29,7 +29,7 @@ locals {
   }
 
   access_entries = {
-    for index, value in data.aws_iam_roles.admin.arns : "admin_entry_${index}" => value
+    for index, value in tolist(data.aws_iam_roles.admin.arns) : "admin_entry_${index}" => value
   }
 }
 
