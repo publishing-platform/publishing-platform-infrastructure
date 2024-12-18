@@ -28,16 +28,20 @@ locals {
     }
   }
 
-  admin_access_entries = {
-    for index, value in tolist(data.aws_iam_roles.admin.arns) : "admin_entry_${index}" => value
+  access_entries = {
+    for index, value in tolist(data.aws_iam_roles.admin.arns) : "admin_entry_${index}" => 
+    {
+      principal_arn = value
+      policy_associations = {
+        this = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy" # https://docs.aws.amazon.com/eks/latest/userguide/cluster-auth.html, https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }      
+    }
   }
-
-  read_access_entries = {
-    read_entry_0 = "testing",
-    read_entry_1 = "testing 2"
-  }
-
-  access_entries = merge(local.admin_access_entries, local.read_access_entries)
 }
 
 data "aws_iam_policy_document" "node_assumerole" {
