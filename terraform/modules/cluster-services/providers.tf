@@ -1,7 +1,3 @@
-data "aws_eks_cluster_auth" "cluster_token" {
-  name = "publishing-platform"
-}
-
 provider "aws" {
   region = "eu-west-2"
   default_tags {

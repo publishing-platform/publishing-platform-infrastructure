@@ -11,3 +11,7 @@ data "tfe_outputs" "cluster_infrastructure" {
   organization = "publishing-platform"
   workspace    = "cluster-infrastructure-${var.publishing_platform_environment}"
 }
+
+data "aws_eks_cluster_auth" "cluster_token" {
+  name = "publishing-platform"
+}
