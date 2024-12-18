@@ -5,6 +5,7 @@ data "aws_eks_cluster_auth" "cluster_token" {
 output "token" {
   description = "AWS EKS cluster token"
   value       = data.aws_eks_cluster_auth.cluster_token
+  sensitive = true
 }
 
 provider "aws" {
