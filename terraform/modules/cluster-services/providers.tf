@@ -2,6 +2,11 @@ data "aws_eks_cluster_auth" "cluster_token" {
   name = "publishing-platform"
 }
 
+output "token" {
+  description = "AWS EKS cluster token"
+  value       = data.aws_eks_cluster_auth.cluster_token
+}
+
 provider "aws" {
   region = "eu-west-2"
   default_tags {
