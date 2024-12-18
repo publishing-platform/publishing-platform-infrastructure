@@ -28,9 +28,16 @@ locals {
     }
   }
 
-  access_entries = {
+  admin_access_entries = {
     for index, value in tolist(data.aws_iam_roles.admin.arns) : "admin_entry_${index}" => value
   }
+
+  read_access_entries = {
+    read_entry_0 = "testing",
+    read_entry_1 = "testing 2"
+  }
+
+  access_entries = merge(local.admin_access_entries, local.read_access_entries)
 }
 
 data "aws_iam_policy_document" "node_assumerole" {
