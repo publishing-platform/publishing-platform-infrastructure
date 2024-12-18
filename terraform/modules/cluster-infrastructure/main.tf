@@ -27,6 +27,10 @@ locals {
       }
     }
   }
+
+  access_entries = {
+    for index, value in data.aws_iam_roles.admin.arns : "admin_entry_${index}" => value
+  }
 }
 
 data "aws_iam_policy_document" "node_assumerole" {
