@@ -27,7 +27,3 @@ output "aws_lb_controller_service_account_name" {
   description = "Name of the k8s service account for the AWS Load Balancer Controller."
   value       = local.aws_lb_controller_service_account_name
 }
-
-output "access_entries" {
-  value = local.access_entries
-}
