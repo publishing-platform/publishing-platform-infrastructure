@@ -149,7 +149,7 @@ module "eks" {
     }
 
     tfc = {
-      principal_arn = one(data.aws_iam_roles.tfc)
+      principal_arn = one(data.aws_iam_roles.tfc.arns)
 
       policy_associations = {
         this = {
