@@ -1,6 +1,10 @@
 data "aws_iam_roles" "admin" {
-  name_regex  = "AWSReservedSSO_AdministratorAccess_.*"
+  name_regex  = "^AWSReservedSSO_AdministratorAccess_.*"
   path_prefix = "/aws-reserved/sso.amazonaws.com/"
+}
+
+data "aws_iam_roles" "tfc" {
+  name_regex = "^terraform-cloud$"
 }
 
 data "aws_region" "current" {}

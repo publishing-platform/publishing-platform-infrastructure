@@ -27,21 +27,6 @@ locals {
       }
     }
   }
-
-  access_entries = {
-    for index, value in tolist(data.aws_iam_roles.admin.arns) : "admin_entry_${index}" => 
-    {
-      principal_arn = value
-      policy_associations = {
-        this = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy" # https://docs.aws.amazon.com/eks/latest/userguide/cluster-auth.html, https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html
-          access_scope = {
-            type = "cluster"
-          }
-        }
-      }      
-    }
-  }
 }
 
 data "aws_iam_policy_document" "node_assumerole" {
@@ -152,6 +137,19 @@ module "eks" {
   access_entries = {
     admin = {
       principal_arn = one(data.aws_iam_roles.admin.arns)
+
+      policy_associations = {
+        this = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy" # https://docs.aws.amazon.com/eks/latest/userguide/cluster-auth.html, https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
+    }
+
+    tfc = {
+      principal_arn = one(data.aws_iam_roles.admin.tfc)
 
       policy_associations = {
         this = {
