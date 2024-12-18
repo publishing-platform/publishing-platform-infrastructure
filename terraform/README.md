@@ -23,4 +23,5 @@ When turning up from scratch, deploy the modules in this order:
 6. [`ecr`](./modules/ecr/)
 5. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
 6. [`rds`](./modules/rds/)
-7. TODO
+7. [`cluster-services`](./modules/cluster-services/)
+8. TODO
