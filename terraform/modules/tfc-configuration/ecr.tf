@@ -5,7 +5,7 @@ module "ecr-production" {
 
   organization        = var.organization
   workspace_name      = "ecr-production"
-  workspace_desc      = "This module manages Elastic Container Registry repositories, to store OCI images of Publishing Platform apps"
+  workspace_desc      = "This module manages Elastic Container Registry repositories, to store images of Publishing Platform apps"
   workspace_tags      = ["production", "ecr", "eks", "aws"]
   terraform_version   = var.terraform_version
   execution_mode      = "remote"
