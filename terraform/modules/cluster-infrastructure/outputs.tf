@@ -47,3 +47,8 @@ output "external_secrets_service_account_name" {
   description = "Name of the k8s service account for external-secrets."
   value       = local.external_secrets_service_account_name
 }
+
+output "external_secrets_role_arn" {
+  description = "IAM role ARN corresponding to the k8s service account for external-secrets."
+  value       = module.external_secrets_iam_role.iam_role_arn
+}
