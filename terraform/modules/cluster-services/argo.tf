@@ -62,8 +62,8 @@ resource "helm_release" "argo_cd" {
         "oidc.config" = yamlencode({
           name         = "GitHub"
           issuer       = "https://${local.dex_host}"
-          clientID     = "$govuk-dex-argocd:clientID"
-          clientSecret = "$govuk-dex-argocd:clientSecret"
+          clientID     = "$publishing-platform-dex-argocd:clientID"
+          clientSecret = "$publishing-platform-dex-argocd:clientSecret"
         })
       }
 
@@ -154,7 +154,7 @@ resource "helm_release" "argo_bootstrap" {
   name             = "argo-bootstrap"
   namespace        = local.services_ns
   create_namespace = true
-  repository       = "https://alphagov.github.io/publishing-platform-helm-charts/"
+  repository       = "https://publishing-platform.github.io/publishing-platform-helm-charts/"
   version          = "0.3.2" # TODO: Dependabot or equivalent so this doesn't get neglected.
   timeout          = var.helm_timeout_seconds
   values = [yamlencode({
