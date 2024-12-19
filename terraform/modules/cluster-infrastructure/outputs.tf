@@ -42,3 +42,8 @@ output "external_dns_zone_name" {
   description = "Domain name of the Route53 zone to be managed by the external-dns addon."
   value       = local.external_dns_zone_name
 }
+
+output "external_secrets_service_account_name" {
+  description = "Name of the k8s service account for external-secrets."
+  value       = local.external_secrets_service_account_name
+}
