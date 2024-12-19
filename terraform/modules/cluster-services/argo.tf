@@ -146,3 +146,27 @@ resource "helm_release" "argo_cd" {
     }
   })]
 }
+
+resource "helm_release" "argo_bootstrap" {
+  # Relies on CRDs
+  depends_on       = [helm_release.argo_cd]
+  chart            = "argo-bootstrap"
+  name             = "argo-bootstrap"
+  namespace        = local.services_ns
+  create_namespace = true
+  repository       = "https://alphagov.github.io/publishing-platform-helm-charts/"
+  version          = "0.3.2" # TODO: Dependabot or equivalent so this doesn't get neglected.
+  timeout          = var.helm_timeout_seconds
+  values = [yamlencode({
+    # TODO: This TF module should not need to know the publishing_platform_environment, since
+    # there is only one per AWS account.
+    awsAccountId                  = data.aws_caller_identity.current.account_id
+    publishingPlatformEnvironment = var.publishing_platform_environment
+    argocdUrl                     = "https://${local.argo_host}"
+    argoWorkflowsUrl              = "https://${local.argo_workflows_host}"
+    rbacTeams = {
+      read_only  = var.github_read_only_team
+      read_write = var.github_read_write_team
+    }
+  })]
+}
