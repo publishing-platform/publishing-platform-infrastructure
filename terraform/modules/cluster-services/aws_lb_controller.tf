@@ -25,7 +25,7 @@ resource "helm_release" "aws_lb_controller" {
     podDisruptionBudget = var.desired_ha_replicas > 1 ? { minAvailable = 1 } : {}
     replicaCount        = var.desired_ha_replicas
     region              = data.aws_region.current.name
-    serviceMonitor      = { enabled = true }
+    serviceMonitor      = { enabled = false } // TODO: set to true once there is a strategy for installing kube-prometheus-stack https://artifacthub.io/packages/helm/aws/aws-load-balancer-controller#installing-the-prometheus-operator
     vpcId               = data.tfe_outputs.vpc.nonsensitive_values.vpc_id
     serviceAccount = {
       name = data.tfe_outputs.cluster_infrastructure.nonsensitive_values.aws_lb_controller_service_account_name
