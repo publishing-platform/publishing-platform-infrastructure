@@ -1,5 +1,6 @@
 locals {
   cluster_services_namespace = "cluster-services"
+  monitoring_namespace       = "monitoring"
   secrets_prefix             = "publishing-platform"
 
   main_managed_node_group = {

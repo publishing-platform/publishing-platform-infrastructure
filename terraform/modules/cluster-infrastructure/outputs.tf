@@ -13,6 +13,16 @@ output "cluster_endpoint" {
   value       = module.eks.cluster_endpoint
 }
 
+output "cluster_services_namespace" {
+  description = "The namespace for cluster services."
+  value       = local.cluster_services_namespace
+}
+
+output "monitoring_namespace" {
+  description = "The namespace for monitoring."
+  value       = local.monitoring_namespace
+}
+
 output "node_security_group_id" {
   description = "ID of the security group which contains the worker nodes. May or may not be the same as control_plane_security_group_id."
   value       = module.eks.cluster_primary_security_group_id
@@ -26,4 +36,9 @@ output "aws_lb_controller_role_arn" {
 output "aws_lb_controller_service_account_name" {
   description = "Name of the k8s service account for the AWS Load Balancer Controller."
   value       = local.aws_lb_controller_service_account_name
+}
+
+output "external_dns_zone_name" {
+  description = "Domain name of the Route53 zone to be managed by the external-dns addon."
+  value       = local.external_dns_zone_name
 }
