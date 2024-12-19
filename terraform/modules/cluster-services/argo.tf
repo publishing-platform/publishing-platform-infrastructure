@@ -1,3 +1,27 @@
+locals {
+  argo_host           = "argo.${local.external_dns_zone_name}"
+  argo_workflows_host = "argo-workflows.${local.external_dns_zone_name}"
+  argo_metrics_config = {
+    enabled = true
+    serviceMonitor = {
+      enabled   = true
+      namespace = local.monitoring_ns
+    }
+  }
+  argo_environment_banner_background_colors = {
+    test        = "#5694ca"
+    integration = "#ffdd00"
+    staging     = "#f47738"
+    production  = "#d4351c"
+  }
+  argo_environment_banner_foreground_colors = {
+    test        = "#000000"
+    integration = "#000000"
+    staging     = "#000000"
+    production  = "#ffffff"
+  }
+}
+
 resource "kubernetes_namespace" "apps" {
   metadata {
     name = var.apps_namespace
@@ -14,4 +38,111 @@ resource "kubernetes_namespace" "apps" {
       "pod-security.kubernetes.io/warn"         = "restricted"
     }
   }
+}
+
+resource "helm_release" "argo_cd" {
+  chart            = "argo-cd"
+  name             = "argo-cd"
+  namespace        = local.services_ns
+  create_namespace = true
+  repository       = "https://argoproj.github.io/argo-helm"
+  version          = "7.1.4" # TODO: Dependabot or equivalent so this doesn't get neglected.
+  timeout          = var.helm_timeout_seconds
+  values = [yamlencode({
+    global = {
+      logging = {
+        format = "json"
+        level  = "warn"
+      }
+    }
+
+    configs = {
+      cm = {
+        url = "https://${local.argo_host}"
+        "oidc.config" = yamlencode({
+          name         = "GitHub"
+          issuer       = "https://${local.dex_host}"
+          clientID     = "$govuk-dex-argocd:clientID"
+          clientSecret = "$govuk-dex-argocd:clientSecret"
+        })
+      }
+
+      # We terminate TLS at the ALB (L7 LB inside the VPC network), so tell
+      # argo-cd-server not to redirect to HTTPS.
+      params = { "server.insecure" = true }
+
+      rbac = {
+        "policy.csv" = <<-EOT
+          g, ${var.github_read_only_team}, role:readonly
+          g, ${var.github_read_write_team}, role:admin
+          EOT
+      }
+
+      # Adds some hacky custom CSS that inserts an environment banner into the ArgoCD UI to make it
+      # easier to differentiate between environments. May break if there are major changes to the
+      # ArgoCD UI.
+      styles = templatefile("${path.module}/templates/argo-custom-css.tpl", {
+        env_name             = title(var.publishing_platform_environment)
+        env_abbreviation     = upper(substr(var.publishing_platform_environment, 0, 1))
+        env_background_color = local.argo_environment_banner_background_colors[var.publishing_platform_environment]
+        env_foreground_color = local.argo_environment_banner_foreground_colors[var.publishing_platform_environment]
+      })
+    }
+
+    controller = { metrics = local.argo_metrics_config }
+
+    server = {
+      replicas = var.desired_ha_replicas
+
+      ingress = {
+        enabled = true
+        annotations = {
+          "alb.ingress.kubernetes.io/group.name"         = "argo"
+          "alb.ingress.kubernetes.io/scheme"             = "internet-facing"
+          "alb.ingress.kubernetes.io/target-type"        = "ip"
+          "alb.ingress.kubernetes.io/load-balancer-name" = "argo"
+          "alb.ingress.kubernetes.io/listen-ports"       = jsonencode([{ "HTTP" : 80 }, { "HTTPS" : 443 }])
+          "alb.ingress.kubernetes.io/ssl-redirect"       = "443"
+        }
+        labels           = {}
+        ingressClassName = "aws-alb"
+        hostname         = local.argo_host
+        tls              = true
+      }
+
+      ingressGrpc = {
+        enabled  = true
+        isAWSALB = true
+        annotations = {
+          "alb.ingress.kubernetes.io/group.name"         = "argo"
+          "alb.ingress.kubernetes.io/scheme"             = "internet-facing"
+          "alb.ingress.kubernetes.io/target-type"        = "ip"
+          "alb.ingress.kubernetes.io/load-balancer-name" = "argo"
+          "alb.ingress.kubernetes.io/listen-ports"       = jsonencode([{ "HTTP" : 80 }, { "HTTPS" : 443 }])
+          "alb.ingress.kubernetes.io/ssl-redirect"       = "443"
+        }
+        labels           = {}
+        ingressClassName = "aws-alb"
+        hostname         = local.argo_host
+        tls              = true
+      }
+
+      metrics = local.argo_metrics_config
+    }
+
+    repoServer = {
+      metrics  = local.argo_metrics_config
+      replicas = var.desired_ha_replicas
+    }
+
+    applicationSet = { replicas = var.desired_ha_replicas }
+    dex            = { enabled = false }
+
+    notifications = {
+      argocdUrl = "https://${local.argo_host}"
+      cm        = { create = false }
+      secret    = { create = false }
+      metrics   = local.argo_metrics_config
+    }
+  })]
 }
