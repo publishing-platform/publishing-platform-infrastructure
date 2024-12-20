@@ -36,4 +36,4 @@ When destroying an environment run the destroy plans in reverse order.
     Error: deleting EC2 Subnet (subnet-xxx): operation error EC2: DeleteSubnet, https response error StatusCode: 400, RequestID: 4f6d96be-ddc1-4458-9b64-054b031722bf, api error DependencyViolation: The subnet 'subnet-xxx' has dependencies and cannot be deleted.
     ```
 
-    The Kubernetes cluster has created an Elastic Network Interface (ENI) in this subnet.  Because this is not managed Terraform it will need to be manually deleted before the destroy plan will succeed.
+    The Kubernetes cluster has created EC2 Load Balancers and Elastic Network Interfaces (ENI) in this subnet.  Because they are not managed by Terraform they will need to be manually deleted before the destroy plan will succeed.
