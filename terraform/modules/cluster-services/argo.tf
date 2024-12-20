@@ -41,6 +41,7 @@ resource "kubernetes_namespace" "apps" {
 }
 
 resource "helm_release" "argo_cd" {
+  depends_on = [helm_release.external_secrets]
   chart            = "argo-cd"
   name             = "argo-cd"
   namespace        = local.services_ns
