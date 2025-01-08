@@ -30,7 +30,7 @@ variable "desired_ha_replicas" {
 variable "github_read_write_team" {
   type        = string
   description = "Name of the GitHub team that should have read-write access to Dex SSO-enabled applications"
-  default     = "publishing-platform:publishing-platform-production-admin"
+  default     = "publishing-platform:publishing-platform-production-deploy"
 }
 
 variable "github_read_only_team" {
