@@ -4,6 +4,12 @@ variable "apps_namespace" {
   default     = "apps"
 }
 
+variable "argo_workflows_namespaces" {
+  type        = list(string)
+  description = "Namespaces in which Argo will run workflows."
+  default     = ["apps"]
+}
+
 variable "cluster_name" {
   type        = string
   description = "Name for the EKS cluster."
