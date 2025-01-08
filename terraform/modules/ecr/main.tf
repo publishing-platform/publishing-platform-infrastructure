@@ -1,9 +1,5 @@
-data "github_repositories" "publishing_platform" {
-  query = "org:publishing-platform topic:container topic:publishing-platform fork:false archived:false"
-}
-
 resource "aws_ecr_repository" "github_repositories" {
-  for_each             = toset(data.github_repositories.publishing_platform.names)
+  for_each             = toset(local.repositories)
   name                 = "github/publishing-platform/${each.key}"
   image_tag_mutability = "MUTABLE" # To support a movable `latest` for developer convenience.
   image_scanning_configuration { scan_on_push = true }
@@ -25,7 +21,7 @@ resource "aws_ecr_pull_through_cache_rule" "github" {
 }
 
 resource "aws_ecr_lifecycle_policy" "ecr_lifecycle_policy" {
-  for_each   = toset([for repo in data.github_repositories.publishing_platform.names : aws_ecr_repository.github_repositories[repo].name])
+  for_each   = toset([for repo in local.repositories : aws_ecr_repository.github_repositories[repo].name])
   repository = each.key
 
   policy = jsonencode({
