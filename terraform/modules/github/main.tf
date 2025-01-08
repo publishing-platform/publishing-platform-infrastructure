@@ -13,6 +13,11 @@ resource "github_team" "publishing_platform_production_admin" {
   privacy = "closed"
 }
 
+resource "github_team" "publishing_platform_production_deploy" {
+  name    = "Publishing Platform Production Deploy"
+  privacy = "closed"
+}
+
 resource "github_team" "publishing_platform" {
   name    = "Publishing Platform"
   privacy = "closed"
