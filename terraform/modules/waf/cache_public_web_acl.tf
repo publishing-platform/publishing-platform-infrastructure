@@ -96,6 +96,27 @@ resource "aws_wafv2_web_acl" "cache_public" {
     }
   }
 
+  custom_response_body {
+    key     = "cache-public-rule-429"
+    content = <<HTML
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Welcome to Publishing Platform</title>
+          <style>
+          </style>
+        </head>
+        <body>
+          <header><h1>Publishing Platform</h1></header>
+          <p>Sorry, there have been too many attempts to access this page.</p>
+          <p>Try again in a few minutes.</p>
+        </body>
+      </html>
+      HTML
+
+    content_type = "TEXT_HTML"
+  }
+
   visibility_config {
     cloudwatch_metrics_enabled = true
     metric_name                = "cache-public-web-acl"
