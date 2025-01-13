@@ -7,6 +7,11 @@ data "tfe_outputs" "vpc" {
   workspace    = "vpc-${var.publishing_platform_environment}"
 }
 
+data "tfe_outputs" "waf" {
+  organization = "publishing-platform"
+  workspace    = "waf-${var.publishing_platform_environment}"
+}
+
 data "tfe_outputs" "cluster_infrastructure" {
   organization = "publishing-platform"
   workspace    = "cluster-infrastructure-${var.publishing_platform_environment}"

@@ -169,6 +169,8 @@ resource "helm_release" "argo_bootstrap" {
       read_only  = var.github_read_only_team
       read_write = var.github_read_write_team
     }
+    backendPublicWebAclArn = data.tfe_outputs.waf.nonsensitive_values.backend_public_web_acl_arn
+    cachePublicWebAclArn   = data.tfe_outputs.waf.nonsensitive_values.cache_public_web_acl_arn
   })]
 }
 
