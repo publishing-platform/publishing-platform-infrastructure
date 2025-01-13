@@ -153,3 +153,13 @@ module "variable-set-rds-production" {
     }
   }
 }
+
+module "variable-set-waf-production" {
+  source = "./variable-set"
+
+  name         = "waf-production"
+  organization = var.organization
+  tfvars = {
+    waf_log_retention_days = 30
+  }
+}
