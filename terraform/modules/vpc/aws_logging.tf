@@ -24,7 +24,16 @@ resource "aws_s3_bucket_policy" "aws_logging" {
   policy = data.aws_iam_policy_document.s3_aws_logging.json
 }
 
+resource "aws_s3_bucket_ownership_controls" "aws_logging" {
+  bucket = aws_s3_bucket.aws_logging.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
 resource "aws_s3_bucket_acl" "aws_logging" {
+  depends_on = [aws_s3_bucket_ownership_controls.aws_logging]
+
   bucket = aws_s3_bucket.aws_logging.id
   acl    = "log-delivery-write"
 }
