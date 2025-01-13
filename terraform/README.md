@@ -18,13 +18,14 @@ When turning up from scratch, deploy the modules in this order:
 1. [`tfc-bootstrap`](./modules/tfc-bootstrap/) (execute locally)
 2. [`tfc-configuration`](./modules/tfc-configuration/)
 3. [`tfc-aws-config`](./modules/tfc-aws-config/) (execute locally)
-4. [`vpc`](./modules/vpc/)
-5. [`github`](./modules/github/)
-6. [`ecr`](./modules/ecr/)
-5. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
-6. [`rds`](./modules/rds/)
-7. [`cluster-services`](./modules/cluster-services/)
-8. TODO
+4. [`github`](./modules/github/)
+5. [`sentry`](./modules/sentry/)
+5. [`vpc`](./modules/vpc/)
+6. [`waf`](./modules/waf/)
+7. [`ecr`](./modules/ecr/)
+8. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
+9. [`rds`](./modules/rds/)
+10. [`cluster-services`](./modules/cluster-services/)
 
 ## Destroying
 When destroying an environment run the destroy plans in reverse order.
