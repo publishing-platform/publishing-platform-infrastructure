@@ -14,7 +14,7 @@ variable "backend_public_base_rate_warning" {
 }
 
 variable "backend_public_base_rate_limit" {
-  type        = string
+  type        = number
   description = "For the backend ALB. Number of requests to allow in a 5 minute period before rate limiting is applied."
 }
 
@@ -26,4 +26,9 @@ variable "cache_public_base_rate_warning" {
 variable "cache_public_base_rate_limit" {
   type        = number
   description = "For the cache ALB. Number of requests to allow in a 5 minute period before rate limiting is applied."
+}
+
+variable "backend_public_ja3_denylist" {
+  type        = list(string)
+  description = "For the backend ALB. List of JA3 signatures for which we should block all requests."
 }
