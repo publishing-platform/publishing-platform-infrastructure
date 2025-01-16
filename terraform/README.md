@@ -26,7 +26,8 @@ When turning up from scratch, deploy the modules in this order:
 9. [`ecr`](./modules/ecr/)
 10. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
 11. [`rds-security`](./modules/rds-security/)
-12. [`cluster-services`](./modules/cluster-services/)
+12. [`publishing-infrastructure`](./modules/publishing-infrastructure/)
+13. [`cluster-services`](./modules/cluster-services/)
 
 \* Destroy plan is not allowed
 
