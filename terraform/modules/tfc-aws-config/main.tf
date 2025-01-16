@@ -72,7 +72,6 @@ data "aws_iam_policy_document" "tfc_policy" {
       "iam:UntagRole",
       "iam:UpdateRole",
       "iam:SetDefaultPolicyVersion",
-      "iam:PassRole",
       "kms:*",
       "lambda:*",
       "logs:*",
@@ -96,6 +95,7 @@ data "aws_iam_policy_document" "tfc_policy" {
       values = [
         "eks.amazonaws.com",
         "s3.amazonaws.com",
+        "lambda.amazonaws.com",
       ]
     }
   }
