@@ -83,3 +83,43 @@ resource "aws_lambda_function" "stop_rds" {
     aws_iam_role.lambda
   ]
 }
+
+resource "aws_cloudwatch_event_rule" "start_event_rule" {
+  name        = "start-rds-instances"
+  description = "Fires 30 minutes before weekly maintenance window starts."
+  # schedule_expression = "cron(30 3 * * 2 *)"
+  schedule_expression = "cron(0 9 * * 5 *)"
+}
+
+resource "aws_cloudwatch_event_target" "start_event_target" {
+  rule = aws_cloudwatch_event_rule.start_event_rule.name
+  arn  = aws_lambda_function.start_rds.arn
+}
+
+resource "aws_lambda_permission" "start_permission" {
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.start_rds.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.start_event_rule.arn
+}
+
+resource "aws_cloudwatch_event_rule" "stop_event_rule" {
+  name        = "stop-rds-instances"
+  description = "Fires 30 minutes after weekly maintenance window ends."
+  # schedule_expression = "cron(30 6 * * 2 *)"
+  schedule_expression = "cron(0 8 * * 5 *)"
+}
+
+resource "aws_cloudwatch_event_target" "stop_event_target" {
+  rule = aws_cloudwatch_event_rule.stop_event_rule.name
+  arn  = aws_lambda_function.stop_rds.arn
+}
+
+resource "aws_lambda_permission" "stop_permission" {
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.stop_rds.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.stop_event_rule.arn
+}
