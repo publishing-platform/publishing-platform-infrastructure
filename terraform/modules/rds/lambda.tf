@@ -87,8 +87,8 @@ resource "aws_lambda_function" "stop_rds" {
 resource "aws_cloudwatch_event_rule" "start_event_rule" {
   name        = "start-rds-instances"
   description = "Fires 30 minutes before weekly maintenance window starts."
-  # schedule_expression = "cron(30 3 * * 2 *)"
-  schedule_expression = "cron(0 9 * * 5 *)"
+  # schedule_expression = "cron(30 3 ? * 2 *)"
+  schedule_expression = "cron(0 9 ? * 5 *)"
 }
 
 resource "aws_cloudwatch_event_target" "start_event_target" {
@@ -107,8 +107,8 @@ resource "aws_lambda_permission" "start_permission" {
 resource "aws_cloudwatch_event_rule" "stop_event_rule" {
   name        = "stop-rds-instances"
   description = "Fires 30 minutes after weekly maintenance window ends."
-  # schedule_expression = "cron(30 6 * * 2 *)"
-  schedule_expression = "cron(0 8 * * 5 *)"
+  # schedule_expression = "cron(30 6 ? * 2 *)"
+  schedule_expression = "cron(0 8 ? * 5 *)"
 }
 
 resource "aws_cloudwatch_event_target" "stop_event_target" {
