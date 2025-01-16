@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "s3_aws_logging" {
 
 # Create a bucket that allows AWS services to write to it
 resource "aws_s3_bucket" "aws_logging" {
-  bucket = "publishing-platform-${var.publishing_platform_environment}-aws-logging"
+  bucket        = "publishing-platform-${var.publishing_platform_environment}-aws-logging"
   force_destroy = var.force_destroy
 }
 
