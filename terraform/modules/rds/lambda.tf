@@ -50,7 +50,7 @@ resource "aws_iam_role_policy_attachment" "stop_start_rds" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda" {
-  role       = aws_iam_role.terraform_function_role.name
+  role       = aws_iam_role.lambda.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
