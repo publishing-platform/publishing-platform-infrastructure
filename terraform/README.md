@@ -15,18 +15,20 @@ the Terraform apply for the first time.
 
 When turning up from scratch, deploy the modules in this order:
 
-1. [`tfc-bootstrap`](./modules/tfc-bootstrap/) (execute locally)
-2. [`tfc-configuration`](./modules/tfc-configuration/)
-3. [`tfc-aws-config`](./modules/tfc-aws-config/) (execute locally)
-4. [`github`](./modules/github/)
-5. [`sentry`](./modules/sentry/)
-6. [`vpc`](./modules/vpc/)
-7. [`waf`](./modules/waf/)
-8. [`ecr`](./modules/ecr/)
-9. [`rds`](./modules/rds/)
+1. [`tfc-bootstrap`](./modules/tfc-bootstrap/) (execute locally) *
+2. [`tfc-configuration`](./modules/tfc-configuration/) *
+3. [`tfc-aws-config`](./modules/tfc-aws-config/) (execute locally) *
+4. [`github`](./modules/github/) *
+5. [`sentry`](./modules/sentry/) *
+6. [`vpc`](./modules/vpc/) *
+7. [`rds`](./modules/rds/) *
+8. [`waf`](./modules/waf/)
+9. [`ecr`](./modules/ecr/)
 10. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
 11. [`rds-security`](./modules/rds-security/)
 12. [`cluster-services`](./modules/cluster-services/)
+
+* Destroy plan is not allowed
 
 ## Destroying
 When destroying an environment run the destroy plans in reverse order.
