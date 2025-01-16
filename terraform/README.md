@@ -28,7 +28,7 @@ When turning up from scratch, deploy the modules in this order:
 11. [`rds-security`](./modules/rds-security/)
 12. [`cluster-services`](./modules/cluster-services/)
 
-* Destroy plan is not allowed
+\* Destroy plan is not allowed
 
 ## Destroying
 When destroying an environment run the destroy plans in reverse order.
