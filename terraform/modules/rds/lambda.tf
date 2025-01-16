@@ -32,15 +32,16 @@ data "aws_iam_policy_document" "lambda_assumerole" {
 }
 
 resource "aws_iam_role" "lambda" {
-  description           = "Lambda IAM role"
+  name                  = "publishing-platform-rds-lambda"
+  description           = "IAM role used by lambda functions to stop/start RDS instances."
   assume_role_policy    = data.aws_iam_policy_document.lambda_assumerole.json
   force_detach_policies = true
 }
 
 resource "aws_iam_policy" "stop_start_rds" {
-  name        = "lambda-stop-start-rds"
+  name        = "publishing-platform-rds-lambda"
   path        = "/"
-  description = "Policy to allow lambda to stop/start RDS instances."
+  description = "Policy to allow lambda functions to stop/start RDS instances."
   policy      = data.aws_iam_policy_document.lambda.json
 }
 
@@ -85,10 +86,9 @@ resource "aws_lambda_function" "stop_rds" {
 }
 
 resource "aws_cloudwatch_event_rule" "start_event_rule" {
-  name        = "start-rds-instances"
-  description = "Fires 30 minutes before weekly maintenance window starts."
-  # schedule_expression = "cron(30 3 ? * 2 *)"
-  schedule_expression = "cron(40 21 ? * 5 *)"
+  name                = "start-rds-instances"
+  description         = "Fires 30 minutes before weekly maintenance window starts."
+  schedule_expression = "cron(30 3 ? * 2 *)" # Mon 03:30
 }
 
 resource "aws_cloudwatch_event_target" "start_event_target" {
@@ -105,10 +105,9 @@ resource "aws_lambda_permission" "start_permission" {
 }
 
 resource "aws_cloudwatch_event_rule" "stop_event_rule" {
-  name        = "stop-rds-instances"
-  description = "Fires 30 minutes after weekly maintenance window ends."
-  # schedule_expression = "cron(30 6 ? * 2 *)"
-  schedule_expression = "cron(0 8 ? * 5 *)"
+  name                = "stop-rds-instances"
+  description         = "Fires 30 minutes after weekly maintenance window ends."
+  schedule_expression = "cron(30 6 ? * 2 *)" # Mon 06:30
 }
 
 resource "aws_cloudwatch_event_target" "stop_event_target" {
