@@ -11,6 +11,7 @@ module "vpc-production" {
   working_directory   = "/terraform/modules/vpc/"
   trigger_patterns    = ["/terraform/modules/vpc/**/*"]
   global_remote_state = true
+  allow_destroy_plan  = false
 
   project_name = "publishing-platform-infrastructure"
 

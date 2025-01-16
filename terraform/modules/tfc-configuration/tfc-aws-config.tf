@@ -9,6 +9,7 @@ module "tfc-aws-config-production" {
   terraform_version   = var.terraform_version
   execution_mode      = "local"
   global_remote_state = true
+  allow_destroy_plan  = false
 
   project_name = "tfc-configuration"
 }

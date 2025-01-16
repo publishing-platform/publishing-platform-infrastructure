@@ -11,6 +11,7 @@ module "rds-production" {
   working_directory   = "/terraform/modules/rds/"
   trigger_patterns    = ["/terraform/modules/rds/**/*"]
   global_remote_state = true
+  allow_destroy_plan  = false
 
   project_name = "publishing-platform-infrastructure"
 

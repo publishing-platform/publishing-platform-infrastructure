@@ -6,13 +6,14 @@ module "tfc-configuration" {
   source  = "alexbasista/workspacer/tfe"
   version = "0.10.0"
 
-  organization      = var.organization
-  workspace_name    = "tfc-configuration"
-  workspace_desc    = "This workspace is used to create other workspaces in terraform cloud"
-  workspace_tags    = ["tfc", "configuration"]
-  execution_mode    = "remote"
-  working_directory = "/terraform/modules/tfc-configuration/"
-  trigger_patterns  = ["/terraform/modules/tfc-configuration/**/*"]
+  organization       = var.organization
+  workspace_name     = "tfc-configuration"
+  workspace_desc     = "This workspace is used to create other workspaces in terraform cloud"
+  workspace_tags     = ["tfc", "configuration"]
+  execution_mode     = "remote"
+  working_directory  = "/terraform/modules/tfc-configuration/"
+  trigger_patterns   = ["/terraform/modules/tfc-configuration/**/*"]
+  allow_destroy_plan = false
 
   project_name = "tfc-configuration"
   vcs_repo = {
