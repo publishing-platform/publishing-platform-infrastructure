@@ -1,6 +1,6 @@
 resource "aws_security_group_rule" "postgres" {
   for_each          = { for name, data in var.databases : name => data if data.engine == "postgres" }
-  security_group_id = data.tfe_outputs.rds.nonsensitive_values.rds_security_groups[each.key].id
+  security_group_id = data.tfe_outputs.rds.nonsensitive_values.rds_security_groups[each.key]
   description       = "Access to PostgreSQL database from EKS worker nodes"
 
   type      = "ingress"
