@@ -24,6 +24,8 @@ resource "aws_s3_bucket_versioning" "app_assets" {
 resource "aws_s3_bucket_policy" "app_assets" {
   bucket = aws_s3_bucket.app_assets.id
   policy = data.aws_iam_policy_document.app_assets.json
+
+  depends_on = [aws_s3_bucket_public_access_block.app_assets]
 }
 
 # TODO: instead of granting write access to nodes, use IRSA (IAM Roles for
