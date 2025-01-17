@@ -4,6 +4,7 @@
 # ../cluster-infrastructure/external_secrets_iam.tf.
 
 resource "helm_release" "external_secrets" {
+  depends_on       = [helm_release.aws_lb_controller]
   name             = "external-secrets"
   repository       = "https://charts.external-secrets.io"
   chart            = "external-secrets"
