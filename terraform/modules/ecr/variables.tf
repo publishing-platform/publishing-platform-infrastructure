@@ -29,3 +29,9 @@ variable "puller_arns" {
   type        = list(string)
   description = "List of IAM principals who should be authorised to pull from this registry."
 }
+
+variable "force_destroy" {
+  type        = bool
+  description = "Setting for force_destroy on resources such as ECR repostories. For use in non-production environments to allow for automated tear-down."
+  default     = false
+}

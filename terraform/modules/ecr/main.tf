@@ -2,6 +2,7 @@ resource "aws_ecr_repository" "github_repositories" {
   for_each             = toset(local.repositories)
   name                 = "github/publishing-platform/${each.key}"
   image_tag_mutability = "MUTABLE" # To support a movable `latest` for developer convenience.
+  force_delete         = var.force_destroy
   image_scanning_configuration { scan_on_push = true }
 }
 
