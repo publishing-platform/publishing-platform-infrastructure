@@ -163,3 +163,12 @@ module "variable-set-waf-production" {
     waf_log_retention_days = 30
   }
 }
+
+module "variable-set-ses-production" {
+  source = "./variable-set"
+
+  name         = "ses-production"
+  organization = var.organization
+  tfvars = {
+  }
+}
