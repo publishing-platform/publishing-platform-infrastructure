@@ -81,6 +81,7 @@ data "aws_iam_policy_document" "tfc_policy" {
       "route53:*",
       "s3:*",
       "secretsmanager:*",
+      "ses:*",
       "sns:*",
       "sqs:*",
       "wafv2:*"
