@@ -20,14 +20,15 @@ When turning up from scratch, deploy the modules in this order:
 3. [`tfc-aws-config`](./modules/tfc-aws-config/) (execute locally) *
 4. [`github`](./modules/github/) *
 5. [`sentry`](./modules/sentry/) *
-6. [`vpc`](./modules/vpc/) *
-7. [`rds`](./modules/rds/) *
-8. [`waf`](./modules/waf/)
-9. [`ecr`](./modules/ecr/)
-10. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
-11. [`rds-security`](./modules/rds-security/)
-12. [`publishing-infrastructure`](./modules/publishing-infrastructure/)
-13. [`cluster-services`](./modules/cluster-services/)
+6. [`ses`](./modules/ses/) *
+7. [`vpc`](./modules/vpc/) *
+8. [`rds`](./modules/rds/) *
+9. [`waf`](./modules/waf/)
+10. [`ecr`](./modules/ecr/)
+11. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
+12. [`rds-security`](./modules/rds-security/)
+13. [`publishing-infrastructure`](./modules/publishing-infrastructure/)
+14. [`cluster-services`](./modules/cluster-services/)
 
 \* Destroy plan is not allowed
 
