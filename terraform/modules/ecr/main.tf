@@ -9,7 +9,7 @@ resource "aws_ecr_repository" "github_repositories" {
 resource "aws_secretsmanager_secret" "ecr_pullthroughcache_github" {
   name = "ecr-pullthroughcache/github-packages"
 
-  recovery_window_in_days = 7
+  recovery_window_in_days = var.force_destroy ? 0 : 7
 }
 
 // this will fail until the ecr_pullthroughcache_github secret has a value set
