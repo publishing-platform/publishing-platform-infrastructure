@@ -66,6 +66,7 @@ data "aws_iam_policy_document" "tfc_policy" {
       "iam:*ServiceLinkedRole*",
       "iam:*SigningCertificate*",
       "iam:CreateRole",
+      "iam:CreateUser",
       "iam:DeleteRole",
       "iam:GetRole",
       "iam:TagRole",
