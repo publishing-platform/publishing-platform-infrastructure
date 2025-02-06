@@ -3,6 +3,7 @@ locals {
 
   sentry_projects = [
     "authenticating-proxy",
+    "collections-frontend",
     "content-store",
     "frontend",
     "organisations-publisher",
