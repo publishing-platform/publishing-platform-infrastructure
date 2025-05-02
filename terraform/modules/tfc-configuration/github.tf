@@ -1,7 +1,7 @@
 // There will only ever be a production github workspace.
 module "github-production" {
   source  = "alexbasista/workspacer/tfe"
-  version = "0.10.0"
+  version = "0.12.0"
 
   organization        = var.organization
   workspace_name      = "github-production"
