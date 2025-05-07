@@ -4,8 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  dependency-review-pr:
-    if: github.event_name == 'pull_request'
+  dependency-review-pr:    
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,8 +16,7 @@ jobs:
         with:
           fail-on-severity: critical
 
-  dependency-review-push:
-    if: github.event_name == 'push'
+  dependency-review-push:    
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
