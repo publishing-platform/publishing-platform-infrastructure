@@ -11,7 +11,8 @@ resource "random_password" "mq_user" {
     "root",
   ])
   length           = 24
-  override_special = "!#$%&*()-_+[]{}<>?"
+  override_special = "!@#$%&*()-_+[]{}<>?"
+  min_special      = 2
 }
 
 resource "aws_mq_broker" "publishing_amazonmq" {
