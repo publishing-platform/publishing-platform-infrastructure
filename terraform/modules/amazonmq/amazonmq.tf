@@ -25,7 +25,7 @@ resource "aws_mq_broker" "publishing_amazonmq" {
   publicly_accessible = false
   # use the existing RabbitMQ security group. We can move it
   # over to this module at the point of migration
-  # security_groups = [aws_security_group.rabbitmq.id] # NH TODO: uncomment
+  security_groups = [aws_security_group.rabbitmq.id]
   subnet_ids = (
     var.amazonmq_deployment_mode == "SINGLE_INSTANCE"
     ? [aws_subnet.private[keys(var.private_subnets)[0]].id]
