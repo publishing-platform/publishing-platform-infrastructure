@@ -26,7 +26,7 @@ resource "aws_mq_broker" "publishing_amazonmq" {
   # security_groups = [aws_security_group.rabbitmq.id] # NH TODO: uncomment
   subnet_ids = (
     var.amazonmq_deployment_mode == "SINGLE_INSTANCE"
-    ? [aws_subnet.private.id]
+    ? [aws_subnet.private[keys(var.private_subnets)[0]].id]
     : [for s in aws_subnet.private : s.id]
   )
 
