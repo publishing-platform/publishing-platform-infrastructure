@@ -5,7 +5,7 @@ variable "publishing_platform_environment" {
 
 variable "amazonmq_engine_version" {
   type        = string
-  default     = "3.11.28"
+  default     = "3.13"
   description = "Engine version for publishing AmazonMQ cluster"
 }
 
