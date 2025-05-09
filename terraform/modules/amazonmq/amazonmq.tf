@@ -10,7 +10,8 @@ resource "random_password" "mq_user" {
   for_each = toset([
     "root",
   ])
-  length = 24
+  length           = 24
+  override_special = "!#$%&*()-_+[]{}<>?"
 }
 
 resource "aws_mq_broker" "publishing_amazonmq" {
