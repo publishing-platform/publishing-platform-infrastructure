@@ -10,7 +10,7 @@ output "internet_gateway_id" {
 
 output "internal_root_zone_id" {
   description = "ID of the internal Route53 DNS zone"
-  value       = aws_route53_zone.internal_root_zone[count.index].id # aws_route53_zone.internal_root_zone.id
+  value       = aws_route53_zone.external_root_zone.id # aws_route53_zone.internal_root_zone.id
 }
 
 output "external_root_zone_id" {
