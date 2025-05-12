@@ -6,6 +6,11 @@ locals {
   }[var.amazonmq_deployment_mode]
 }
 
+data "aws_acm_certificate" "internal_cert" {
+  domain   = "*.${var.publishing_platform_environment}.publishing-platform-internal.top"
+  statuses = ["ISSUED"]
+}
+
 data "aws_vpc_endpoint" "mq" {
   depends_on = [aws_mq_broker.publishing_amazonmq]
   vpc_id     = data.tfe_outputs.vpc.nonsensitive_values.vpc_id
@@ -78,7 +83,7 @@ resource "aws_lb_listener" "internal_https" {
   port              = "443"
   protocol          = "TLS"
   ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  certificate_arn   = aws_acm_certificate.internal_cert.arn
+  certificate_arn   = data.aws_acm_certificate.internal_cert.arn
   tags              = { Description = "MQ admin web UI" }
 
   default_action {
@@ -115,7 +120,7 @@ resource "aws_lb_listener" "internal_amqps" {
   load_balancer_arn = aws_lb.publishingmq_lb_internal.arn
   port              = "5671"
   protocol          = "TLS"
-  certificate_arn   = aws_acm_certificate.internal_cert.arn
+  certificate_arn   = data.aws_acm_certificate.internal_cert.arn
 
   default_action {
     type             = "forward"
