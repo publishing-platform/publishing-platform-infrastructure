@@ -17,6 +17,11 @@ data "aws_vpc_endpoint" "mq" {
   tags       = { Broker = aws_mq_broker.publishing_amazonmq.id }
 }
 
+data "aws_network_interface" "mq" {
+  count = local.mq_instance_count
+  id    = sort(tolist(data.aws_vpc_endpoint.mq.network_interface_ids))[count.index]
+}
+
 resource "random_password" "mq_user" {
   for_each = toset([
     "root",
