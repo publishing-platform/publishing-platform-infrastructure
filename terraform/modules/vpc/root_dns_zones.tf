@@ -7,7 +7,7 @@ variable "create_internal_zone_dns_validation" {
 }
 
 resource "aws_route53_zone" "internal_root_zone" {
-  count = var.create_internal_zone_dns_validation ? 1 : 0
+  count         = var.create_internal_zone_dns_validation ? 1 : 0
   name          = "${var.publishing_platform_environment}.publishing-platform-internal.top"
   force_destroy = var.force_destroy
 
