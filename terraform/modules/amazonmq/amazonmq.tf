@@ -13,7 +13,7 @@ data "aws_acm_certificate" "internal_cert" {
 
 data "aws_vpc_endpoint" "mq" {
   depends_on = [aws_mq_broker.publishing_amazonmq]
-  vpc_id     = data.tfe_outputs.vpc.nonsensitive_values.id
+  vpc_id     = data.tfe_outputs.vpc.nonsensitive_values.vpc_id
   tags       = { Broker = aws_mq_broker.publishing_amazonmq.id }
 }
 
@@ -97,7 +97,7 @@ resource "aws_lb_target_group" "internal_https" {
   target_type = "ip"
   port        = 443
   protocol    = "TLS"
-  vpc_id      = data.tfe_outputs.vpc.nonsensitive_values.id
+  vpc_id      = data.tfe_outputs.vpc.nonsensitive_values.vpc_id
 
   health_check {
     path     = "/"
@@ -133,7 +133,7 @@ resource "aws_lb_target_group" "internal_amqps" {
   target_type = "ip"
   port        = 5671
   protocol    = "TLS"
-  vpc_id      = data.tfe_outputs.vpc.nonsensitive_values.id
+  vpc_id      = data.tfe_outputs.vpc.nonsensitive_values.vpc_id
 
   health_check {
     path     = "/"
