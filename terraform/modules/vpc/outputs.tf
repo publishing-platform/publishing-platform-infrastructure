@@ -13,6 +13,11 @@ output "internal_root_zone_id" {
   value       = aws_route53_zone.internal_root_zone.id
 }
 
+output "internal_root_domain_name" {
+  description = "Name of the internal Route53 DNS zone"
+  value       = aws_route53_zone.internal_root_zone.name
+}
+
 output "external_root_zone_id" {
   description = "ID of the external Route53 DNS zone"
   value       = aws_route53_zone.external_root_zone.id
