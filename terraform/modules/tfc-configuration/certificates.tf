@@ -11,6 +11,7 @@ module "certificates-production" {
   working_directory   = "/terraform/modules/certificates/"
   trigger_patterns    = ["/terraform/modules/certificates/**/*"]
   global_remote_state = true
+  allow_destroy_plan  = false
 
   project_name = "publishing-platform-infrastructure"
 
