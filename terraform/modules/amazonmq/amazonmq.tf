@@ -6,6 +6,11 @@ locals {
   }[var.amazonmq_deployment_mode]
 }
 
+data "aws_subnet" "lb_subnets" {
+  count = local.mq_instance_count
+  id    = sort(tolist(aws_mq_broker.publishing_amazonmq.subnet_ids))[count.index]
+}
+
 data "aws_acm_certificate" "internal_cert" {
   domain   = "*.${var.publishing_platform_environment}.publishing-platform-internal.top"
   statuses = ["ISSUED"]
