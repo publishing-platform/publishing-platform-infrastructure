@@ -4,6 +4,13 @@ locals {
     ACTIVE_STANDBY_MULTI_AZ = 2
     CLUSTER_MULTI_AZ        = 3
   }[var.amazonmq_deployment_mode]
+
+  amazonmq_schema = templatefile("amazonmq_schema.json.tpl", {
+    publishing_amazonmq_passwords = {
+      for user, pw in random_password.mq_user : user => pw.result
+    }
+    publishing_amazonmq_broker_name = "PublishingMQ"
+  })
 }
 
 data "aws_subnet" "lb_subnets" {
@@ -30,6 +37,8 @@ data "aws_network_interface" "mq" {
 resource "random_password" "mq_user" {
   for_each = toset([
     "root",
+    "publishing_api",
+    "search_api",
   ])
   length           = 24
   override_special = "!@#$%&*()-_+[]{}<>?"
@@ -168,4 +177,64 @@ resource "aws_route53_record" "publishing_amazonmq_internal_root_domain_name" {
     zone_id                = aws_lb.publishingmq_lb_internal.zone_id
     evaluate_target_health = true
   }
+}
+
+# Create and invoke a Lambda function to POST the full RabbitMQ config to the
+# management API in the target environment.
+
+data "aws_iam_policy" "lambda_vpc_access" {
+  name = "AWSLambdaVPCAccessExecutionRole"
+}
+
+data "archive_file" "artefact_lambda" {
+  type        = "zip"
+  source_file = "amazonmq_post_config.py"
+  output_path = "amazonmq_post_config.zip"
+}
+
+resource "aws_lambda_function" "post_config_to_amazonmq" {
+  filename         = data.archive_file.artefact_lambda.output_path
+  source_code_hash = data.archive_file.artefact_lambda.output_base64sha256
+
+  function_name = "publishing-platform-${var.publishing_platform_environment}-post_config_to_amazonmq"
+  role          = aws_iam_role.post_config_to_amazonmq.arn
+  handler       = "amazonmq_post_config.lambda_handler"
+  runtime       = "python3.13"
+  timeout       = 10
+
+  vpc_config {
+    subnet_ids         = aws_mq_broker.publishing_amazonmq.subnet_ids
+    security_group_ids = [aws_security_group.rabbitmq.id]
+  }
+}
+
+data "aws_iam_policy_document" "lambda_assumerole" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "post_config_to_amazonmq" {
+  name               = "post_config_to_amazonmq"
+  assume_role_policy = data.aws_iam_policy_document.lambda_assumerole.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_role_policy" {
+  role       = aws_iam_role.post_config_to_amazonmq.name
+  policy_arn = data.aws_iam_policy.lambda_vpc_access.arn
+}
+
+data "aws_lambda_invocation" "post_config_to_amazonmq" {
+  depends_on    = [aws_security_group_rule.rabbitmq_egress_self_self]
+  function_name = aws_lambda_function.post_config_to_amazonmq.function_name
+  input = jsonencode({
+    url      = "${aws_mq_broker.publishing_amazonmq.instances[0].console_url}/api/definitions"
+    username = "root"
+    password = random_password.mq_user["root"].result
+    json_b64 = base64encode(local.amazonmq_schema)
+  })
 }
