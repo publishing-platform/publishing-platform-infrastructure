@@ -7,7 +7,8 @@ from urllib import request
 
 
 def raise_if_not_an_amazonmq_url(url):
-    if re.fullmatch(r'.*\.mq\.[a-z0-9_-]+\.amazonaws\.com/.*', url) is None:
+    if (re.fullmatch(r'.*\.mq\.[a-z0-9_-]+\.amazonaws\.com/.*', url) is None and 
+            re.fullmatch(r'.*\.mq\.[a-z0-9_-]+\.on\.aws/.*', url) is None):
         raise ValueError(f'Not a valid AmazonMQ URL: {url}')
 
 
