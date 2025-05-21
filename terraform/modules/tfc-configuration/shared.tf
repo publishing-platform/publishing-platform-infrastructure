@@ -13,6 +13,7 @@ module "shared-production" {
   working_directory   = "/terraform/modules/shared/"
   trigger_patterns    = ["/terraform/modules/shared/**/*"]
   global_remote_state = true
+  allow_destroy_plan  = false
 
   project_name = "publishing-platform-infrastructure"
 
