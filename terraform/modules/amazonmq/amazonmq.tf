@@ -41,6 +41,7 @@ data "aws_network_interface" "mq" {
   id    = sort(tolist(data.aws_vpc_endpoint.mq.network_interface_ids))[count.index]
 }
 
+# Moved to shared module temporarily to decouple the passwords from this module
 # resource "random_password" "mq_user" {
 #   for_each = toset([
 #     "root",
