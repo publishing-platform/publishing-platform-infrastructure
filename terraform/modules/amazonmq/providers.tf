@@ -1,4 +1,4 @@
-provider "random" {}
+# provider "random" {}
 
 provider "aws" {
   region = "eu-west-2"

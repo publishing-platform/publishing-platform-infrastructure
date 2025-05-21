@@ -5,9 +5,16 @@ locals {
     CLUSTER_MULTI_AZ        = 3
   }[var.amazonmq_deployment_mode]
 
+  # amazonmq_schema = templatefile("amazonmq_schema.json.tpl", {
+  #   publishing_amazonmq_passwords = {
+  #     for user, pw in random_password.mq_user : user => pw.result
+  #   }
+  #   publishing_amazonmq_broker_name = "PublishingMQ"
+  # })
+
   amazonmq_schema = templatefile("amazonmq_schema.json.tpl", {
     publishing_amazonmq_passwords = {
-      for user, pw in random_password.mq_user : user => pw.result
+      for user, pw in data.tfe_outputs.shared.values.mq_user : user => pw
     }
     publishing_amazonmq_broker_name = "PublishingMQ"
   })
@@ -34,16 +41,16 @@ data "aws_network_interface" "mq" {
   id    = sort(tolist(data.aws_vpc_endpoint.mq.network_interface_ids))[count.index]
 }
 
-resource "random_password" "mq_user" {
-  for_each = toset([
-    "root",
-    "publishing_api",
-    "search_api",
-  ])
-  length           = 24
-  override_special = "!@#$%&*()-_+[]{}<>?"
-  min_special      = 2
-}
+# resource "random_password" "mq_user" {
+#   for_each = toset([
+#     "root",
+#     "publishing_api",
+#     "search_api",
+#   ])
+#   length           = 24
+#   override_special = "!@#$%&*()-_+[]{}<>?"
+#   min_special      = 2
+# }
 
 resource "aws_mq_broker" "publishing_amazonmq" {
   broker_name = "PublishingMQ"
@@ -75,7 +82,7 @@ resource "aws_mq_broker" "publishing_amazonmq" {
   user {
     console_access = true
     username       = "root"
-    password       = random_password.mq_user["root"].result
+    password       = data.tfe_outputs.shared.values.mq_user["root"] # random_password.mq_user["root"].result
   }
 }
 
@@ -234,7 +241,7 @@ data "aws_lambda_invocation" "post_config_to_amazonmq" {
   input = jsonencode({
     url      = "${aws_mq_broker.publishing_amazonmq.instances[0].console_url}/api/definitions"
     username = "root"
-    password = random_password.mq_user["root"].result
+    password = data.tfe_outputs.shared.values.mq_user["root"] # random_password.mq_user["root"].result
     json_b64 = base64encode(local.amazonmq_schema)
   })
 }
