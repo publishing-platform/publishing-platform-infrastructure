@@ -24,12 +24,13 @@ When turning up from scratch, deploy the modules in this order:
 7. [`vpc`](./modules/vpc/) *
 8. [`certificates`](./modules/certificates/) *
 9. [`rds`](./modules/rds/) *
-10. [`waf`](./modules/waf/)
-11. [`ecr`](./modules/ecr/)
-12. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
-13. [`rds-security`](./modules/rds-security/)
-14. [`publishing-infrastructure`](./modules/publishing-infrastructure/)
-15. [`cluster-services`](./modules/cluster-services/)
+10. [`shared`](./modules/shared/) *
+11. [`waf`](./modules/waf/)
+12. [`ecr`](./modules/ecr/)
+13. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
+14. [`rds-security`](./modules/rds-security/)
+15. [`publishing-infrastructure`](./modules/publishing-infrastructure/)
+16. [`cluster-services`](./modules/cluster-services/)
 
 \* Destroy plan is not allowed
 
