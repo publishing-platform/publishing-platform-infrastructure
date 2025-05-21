@@ -23,11 +23,13 @@ module "publishing-infrastructure-production" {
   variable_set_names = [
     "aws-credentials-production",
     # "common",
-    "common-production"
+    "common-production",
+    "publishing-infrastructure-production"
   ]
 
   depends_on = [
     module.variable-set-aws-credentials-production,
-    module.variable-set-production
+    module.variable-set-production,
+    module.variable-set-publishing-infrastructure-production
   ]
 }
