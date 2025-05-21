@@ -1,0 +1,35 @@
+# This module exists purely to decouple various secrets from other modules (e.g. publishing-infrastructure) and will be removed in future.
+# Allows the destruction of other modules while preserving secrets that may be being used externally.
+module "secrets-production" {
+  source  = "alexbasista/workspacer/tfe"
+  version = "0.10.0"
+
+  organization        = var.organization
+  workspace_name      = "secrets-production"
+  workspace_desc      = "This module manages secrets that may be required by other modules."
+  workspace_tags      = ["production", "secrets", "eks", "aws"]
+  terraform_version   = var.terraform_version
+  execution_mode      = "remote"
+  working_directory   = "/terraform/modules/secrets/"
+  trigger_patterns    = ["/terraform/modules/secrets/**/*"]
+  global_remote_state = true
+
+  project_name = "publishing-platform-infrastructure"
+
+  vcs_repo = {
+    identifier     = "publishing-platform/publishing-platform-infrastructure"
+    branch         = "main"
+    oauth_token_id = data.tfe_oauth_client.github.oauth_token_id
+  }
+
+  variable_set_names = [
+    "aws-credentials-production",
+    # "common",
+    "common-production"
+  ]
+
+  depends_on = [
+    module.variable-set-aws-credentials-production,
+    module.variable-set-production,
+  ]
+}
