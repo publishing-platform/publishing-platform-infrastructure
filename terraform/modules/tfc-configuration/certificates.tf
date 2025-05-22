@@ -1,6 +1,6 @@
 module "certificates-production" {
   source  = "alexbasista/workspacer/tfe"
-  version = "0.10.0"
+  version = "0.12.0"
 
   organization        = var.organization
   workspace_name      = "certificates-production"
