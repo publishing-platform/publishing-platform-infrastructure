@@ -73,6 +73,7 @@ data "aws_iam_policy_document" "tfc_policy" {
       "iam:DeleteUser",
       "iam:GetRole",
       "iam:GetUser",
+      "iam:ListAccessKeys",
       "iam:TagRole",
       "iam:TagUser",
       "iam:UntagRole",
