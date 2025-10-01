@@ -76,6 +76,15 @@ module "variable-set-aws-credentials-production" {
   }
 }
 
+module "variable-set-gcp-credentials-production" {
+  source = "./variable-set"
+
+  name         = "gcp-credentials-production"
+  organization = var.organization
+  tfvars = {
+  }
+}
+
 module "variable-set-rds-production" {
   source = "./variable-set"
 
