@@ -138,7 +138,7 @@ module "variable-set-rds-production" {
       # }      
       publishing_platform = {
         engine         = "postgres"
-        engine_version = "13"
+        engine_version = "14"
         engine_params = {
           log_min_duration_statement = { value = 10000 }
           log_statement              = { value = "all" }
