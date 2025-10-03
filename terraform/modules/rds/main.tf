@@ -67,6 +67,8 @@ resource "aws_db_instance" "instance" {
   final_snapshot_identifier = "${each.value.name}-final-snapshot"
   skip_final_snapshot       = var.skip_final_snapshot
 
+  allow_major_version_upgrade = true
+
   tags = { Name = "publishing-platform-rds-${each.value.name}-${each.value.engine}", project = lookup(each.value, "project", "Publishing Platform - Other") }
 }
 
