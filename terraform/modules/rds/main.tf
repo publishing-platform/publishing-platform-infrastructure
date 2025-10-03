@@ -28,6 +28,8 @@ resource "aws_db_parameter_group" "engine_params" {
       apply_method = merge({ apply_method = "immediate" }, parameter.value)["apply_method"]
     }
   }
+
+  lifecycle { create_before_destroy = true }
 }
 
 resource "aws_db_instance" "instance" {
