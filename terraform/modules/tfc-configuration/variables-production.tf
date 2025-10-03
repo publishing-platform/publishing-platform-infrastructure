@@ -145,7 +145,7 @@ module "variable-set-rds-production" {
           deadlock_timeout           = { value = 2500 }
           log_lock_waits             = { value = 1 }
         }
-        engine_params_family         = "postgres13"
+        engine_params_family         = "postgres14"
         name                         = "publishing-platform"
         allocated_storage            = 20
         instance_class               = "db.t4g.small"
