@@ -195,3 +195,12 @@ module "variable-set-ses-production" {
   tfvars = {
   }
 }
+
+module "variable-set-search-production" {
+  source = "./variable-set"
+
+  name         = "search-production"
+  organization = var.organization
+  tfvars = {
+  }
+}
