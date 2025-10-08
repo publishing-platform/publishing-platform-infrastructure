@@ -67,7 +67,7 @@ resource "google_iam_workload_identity_pool_provider" "tfc_provider" {
     issuer_uri = "https://${var.tfc_hostname}"
   }
 
-  attribute_condition = "assertion.sub.startsWith(\"organization:${var.organization}:project:*:workspace:*\")"
+  attribute_condition = "assertion.sub.startsWith(\"organization:${var.organization}\")"
 }
 
 resource "google_service_account" "tfc_service_account" {
