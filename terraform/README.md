@@ -18,19 +18,21 @@ When turning up from scratch, deploy the modules in this order:
 1. [`tfc-bootstrap`](./modules/tfc-bootstrap/) (execute locally) *
 2. [`tfc-configuration`](./modules/tfc-configuration/) *
 3. [`tfc-aws-config`](./modules/tfc-aws-config/) (execute locally) *
-4. [`github`](./modules/github/) *
-5. [`sentry`](./modules/sentry/) *
-6. [`ses`](./modules/ses/) *
-7. [`vpc`](./modules/vpc/) *
-8. [`certificates`](./modules/certificates/) *
-9. [`rds`](./modules/rds/) *
-10. [`shared`](./modules/shared/) *
-11. [`waf`](./modules/waf/)
-12. [`ecr`](./modules/ecr/)
-13. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
-14. [`rds-security`](./modules/rds-security/)
-15. [`publishing-infrastructure`](./modules/publishing-infrastructure/)
-16. [`cluster-services`](./modules/cluster-services/)
+4. [`tfc-gcp-config`](./modules/tfc-gcp-config/) (execute locally) *
+5. [`github`](./modules/github/) *
+6. [`sentry`](./modules/sentry/) *
+7. [`ses`](./modules/ses/) *
+8. [`vpc`](./modules/vpc/) *
+9. [`certificates`](./modules/certificates/) *
+10. [`rds`](./modules/rds/) *
+11. [`shared`](./modules/shared/) *
+12. [`waf`](./modules/waf/)
+13. [`ecr`](./modules/ecr/)
+14. [`cluster-infrastructure`](./modules/cluster-infrastructure/)
+15. [`rds-security`](./modules/rds-security/)
+16. [`search`](./modules/search/)
+17. [`publishing-infrastructure`](./modules/publishing-infrastructure/)
+18. [`cluster-services`](./modules/cluster-services/)
 
 \* Destroy plan is not allowed
 
