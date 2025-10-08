@@ -1,5 +1,5 @@
 resource "restapi_object" "google_discovery_engine_datastore_schema" {
-  path      = "/dataStores/${google_discovery_engine_data_store.govuk_content.data_store_id}/schemas"
+  path      = "/dataStores/${google_discovery_engine_data_store.publishing_platform_data_Store.data_store_id}/schemas"
   object_id = "default_schema"
 
   data = jsonencode({
