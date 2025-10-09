@@ -45,3 +45,5 @@ provider "restapi" {
     "X-Goog-User-Project" = var.gcp_project_id
   }
 }
+
+provider "random" {}

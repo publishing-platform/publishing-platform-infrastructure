@@ -5,8 +5,13 @@ locals {
   discovery_engine_default_collection_name = "${local.discovery_engine_default_location_name}/collections/default_collection"
 }
 
+resource "random_integer" "rand" {
+  min = 1000
+  max = 9999
+}
+
 resource "google_discovery_engine_data_store" "publishing_platform_data_Store" {
-  data_store_id = "publishing_platform_content"
+  data_store_id = "publishing_platform_content_${random_integer.rand.id}" # the random int should be removed in production, it is only required due to multiple apply / destroys during development which gcp does not handle well
   display_name  = "publishing_platform_content"
   location      = "global"
 
