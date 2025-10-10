@@ -2,6 +2,11 @@ resource "restapi_object" "google_discovery_engine_datastore_schema" {
   path      = "/dataStores/${google_discovery_engine_data_store.publishing_platform_data_Store.data_store_id}/schemas"
   object_id = "default_schema"
 
+  # Since the default schema is created automatically with the datastore, we need to update even on
+  # initial Terraform resource creation
+  create_method = "PATCH"
+  create_path   = "/dataStores/${google_discovery_engine_data_store.publishing_platform_data_Store.data_store_id}/schemas/default_schema"
+
   data = jsonencode({
     structSchema = {
       "$schema" = "https://json-schema.org/draft/2020-12/schema"
