@@ -5,6 +5,7 @@ resource "restapi_object" "google_discovery_engine_datastore_schema" {
   data = jsonencode({
     structSchema = {
       "$schema" = "https://json-schema.org/draft/2020-12/schema"
+      "$id"     = "https://www.publishing-platform.co.uk/publishing_platform_content_metadata_discoveryengine.json"
       type      = "object"
       properties = {
         # Unique content ID from the Publishing API (for debugging/retrieving single objects)
