@@ -1,6 +1,7 @@
 locals {
-  boostControls   = yamldecode(file("${path.module}/files/controls/boosts.yml"))
-  synonymControls = yamldecode(file("${path.module}/files/controls/synonyms.yml"))
+  # TODO
+  # boostControls   = yamldecode(file("${path.module}/files/controls/boosts.yml"))
+  # synonymControls = yamldecode(file("${path.module}/files/controls/synonyms.yml"))
 }
 
 resource "restapi_object" "discovery_engine_serving_config" {
