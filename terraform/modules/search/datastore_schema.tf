@@ -1,3 +1,13 @@
+############## DATASTORE ##############
+
+# The data schema for the datastore
+#
+# The API resource relationship is one-to-many, but currently only a single schema is supported and
+# it's automatically created as `default_schema` (with an empty content) on creation of the
+# datastore.
+#
+# API resource: v1alpha.projects.locations.collections.dataStores.schemas
+
 resource "restapi_object" "google_discovery_engine_datastore_schema" {
   path      = "/dataStores/${google_discovery_engine_data_store.publishing_platform_data_Store.data_store_id}/schemas"
   object_id = "default_schema"
