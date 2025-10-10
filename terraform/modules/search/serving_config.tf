@@ -29,6 +29,4 @@ resource "restapi_object" "discovery_engine_serving_config" {
     boostControlIds    = [] # keys(local.boostControls)
     synonymsControlIds = [] # keys(local.synonymControls)
   })
-
-  lifecycle { create_before_destroy = true }
 }
