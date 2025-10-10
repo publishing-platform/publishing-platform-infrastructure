@@ -28,16 +28,6 @@ resource "restapi_object" "google_discovery_engine_datastore_schema" {
           type        = "string"
           retrievable = true
         }
-        # Unique identifier for search quality evaluation (identical to content_id)
-        #
-        # Note: This is only used to compare results for evaluation purposes, and is not a URL
-        # despite the name. We decided against using the alternative 'uri' field name to avoid
-        # confusion with our existing 'url' field and 'uri' key property (see
-        # https://cloud.google.com/generative-ai-app-builder/docs/evaluate-search-quality)
-        cdoc_url = {
-          type        = "string"
-          retrievable = true
-        }
         # The main title (shown in search results)
         title = {
           type               = "string"
@@ -49,6 +39,26 @@ resource "restapi_object" "google_discovery_engine_datastore_schema" {
           type               = "string"
           keyPropertyMapping = "description"
           retrievable        = true
+        }
+        # URI reference either as a relative path for GOV.UK content, or as an absolute URL for
+        # external content (used to link to the content from search results)
+        link = {
+          type        = "string"
+          retrievable = true
+          indexable   = true
+        }
+        # Absolute URL including protocol and host even for content on GOV.UK proper (used for
+        # Vertex to incorporate popularity/event signals and for internal purposes)
+        url = {
+          type               = "string"
+          retrievable        = true
+          keyPropertyMapping = "uri"
+        }
+        # The source document type (for boosting)
+        document_type = {
+          type        = "string"
+          indexable   = true
+          retrievable = true
         }
         # Metadata that is only used for debugging purposes
         debug = {
