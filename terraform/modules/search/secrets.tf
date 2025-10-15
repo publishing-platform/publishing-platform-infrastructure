@@ -10,5 +10,6 @@ resource "aws_secretsmanager_secret_version" "discovery_engine_configuration" {
     "GOOGLE_CLOUD_PROJECT_ID"                  = var.gcp_project_id
     "DISCOVERY_ENGINE_DEFAULT_COLLECTION_NAME" = local.discovery_engine_default_collection_name
     "DISCOVERY_ENGINE_DEFAULT_LOCATION_NAME"   = local.discovery_engine_default_location_name
+    "DISCOVERY_ENGINE_DATA_STORE_ID"           = google_discovery_engine_data_store.publishing_platform_data_Store.data_store_id
   })
 }
