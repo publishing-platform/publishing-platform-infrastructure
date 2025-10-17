@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 provider "google" {
-  project = var.gcp_project_id
+  project = data.tfe_outputs.tfc_gcp_config.nonsensitive_values.gcp_project_id
   region  = "europe-west2"
   scopes = [
     # Default scopes requested by Terraform Google provider
@@ -42,7 +42,7 @@ provider "restapi" {
     # Piggyback on the the Terraform provider's generated temporary credentials to authenticate
     # to the API with
     "Authorization"       = "Bearer ${data.google_client_config.default.access_token}"
-    "X-Goog-User-Project" = var.gcp_project_id
+    "X-Goog-User-Project" = data.tfe_outputs.tfc_gcp_config.nonsensitive_values.gcp_project_id
   }
 }
 

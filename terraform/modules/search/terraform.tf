@@ -30,5 +30,10 @@ terraform {
       source  = "hashicorp/random"
       version = "~> 3.6"
     }
+
+    tfe = {
+      source  = "hashicorp/tfe"
+      version = "~> 0.55.0"
+    }
   }
 }

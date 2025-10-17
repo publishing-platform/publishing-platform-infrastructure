@@ -3,11 +3,6 @@ variable "publishing_platform_environment" {
   description = "Publishing Platform environment where resources are being deployed"
 }
 
-variable "gcp_project_id" {
-  type        = string
-  description = "GCP Project ID of the project to create infrastructure in, e.g. search-api-integration-1234"
-}
-
 variable "discovery_engine_api_version" {
   type        = string
   description = "The version of the Discovery Engine API to use, e.g. v1alpha"

@@ -1,17 +1,12 @@
 # TODO: These IDs/paths are semi-hardcoded here as there aren't first party resources/data sources
 # available for them yet.
 locals {
-  discovery_engine_default_location_name   = "projects/${var.gcp_project_id}/locations/global"
+  discovery_engine_default_location_name   = "projects/${data.tfe_outputs.tfc_gcp_config.nonsensitive_values.gcp_project_id}/locations/global"
   discovery_engine_default_collection_name = "${local.discovery_engine_default_location_name}/collections/default_collection"
 }
 
-resource "random_integer" "rand" {
-  min = 1000
-  max = 9999
-}
-
 resource "google_discovery_engine_data_store" "publishing_platform_data_Store" {
-  data_store_id = "publishing_platform_content_${random_integer.rand.id}" # the random int should be removed in production, it is only required due to multiple apply / destroys during development which gcp does not handle well
+  data_store_id = "publishing_platform_content_567547647"
   display_name  = "publishing_platform_content"
   location      = "global"
 
