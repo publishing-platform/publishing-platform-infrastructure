@@ -28,9 +28,9 @@ module "search-integration" {
   ]
 
   depends_on = [
-    module.variable-set-gcp-credentials-production,
-    module.variable-set-production,
-    module.variable-set-search-production
+    module.variable-set-gcp-credentials-integration,
+    module.variable-set-integration,
+    module.variable-set-search-integration
   ]
 }
 
