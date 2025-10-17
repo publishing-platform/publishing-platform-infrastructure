@@ -1,16 +1,3 @@
-provider "aws" {
-  region = "eu-west-2"
-  default_tags {
-    tags = {
-      Product     = "Publishing Platform"
-      System      = "Search"
-      Environment = var.publishing_platform_environment
-      Repository  = "publishing-platform-infrastructure"
-      Workspace   = terraform.workspace
-    }
-  }
-}
-
 provider "google" {
   project = data.tfe_outputs.tfc_gcp_config.nonsensitive_values.gcp_project_id
   region  = "europe-west2"
@@ -45,5 +32,3 @@ provider "restapi" {
     "X-Goog-User-Project" = data.tfe_outputs.tfc_gcp_config.nonsensitive_values.gcp_project_id
   }
 }
-
-provider "random" {}
