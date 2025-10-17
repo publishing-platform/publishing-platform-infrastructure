@@ -1,3 +1,13 @@
+module "variable-set-integration" {
+  source = "./variable-set"
+
+  name         = "common-integration"
+  organization = var.organization
+  tfvars = {
+    publishing_platform_environment = "integration"
+  }
+}
+
 module "variable-set-gcp-credentials-integration" {
   source = "./variable-set"
 
