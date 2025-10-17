@@ -6,3 +6,12 @@ module "variable-set-gcp-credentials-integration" {
   tfvars = {
   }
 }
+
+module "variable-set-search-integration" {
+  source = "./variable-set"
+
+  name         = "search-integration"
+  organization = var.organization
+  tfvars = {
+  }
+}
