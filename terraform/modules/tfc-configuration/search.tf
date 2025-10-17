@@ -22,7 +22,6 @@ module "search-production" {
 
   variable_set_names = [
     "gcp-credentials-production",
-    "aws-credentials-production",
     # "common",
     "common-production",
     "search-production"
@@ -30,7 +29,6 @@ module "search-production" {
 
   depends_on = [
     module.variable-set-gcp-credentials-production,
-    module.variable-set-aws-credentials-production,
     module.variable-set-production,
     module.variable-set-search-production
   ]
