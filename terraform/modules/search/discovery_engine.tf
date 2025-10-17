@@ -6,7 +6,7 @@ locals {
 }
 
 resource "google_discovery_engine_data_store" "publishing_platform_data_Store" {
-  data_store_id = "publishing_platform_content_567547648"
+  data_store_id = "publishing_platform_content"
   display_name  = "publishing_platform_content"
   location      = "global"
 
