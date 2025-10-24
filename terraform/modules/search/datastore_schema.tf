@@ -60,6 +60,21 @@ resource "restapi_object" "google_discovery_engine_datastore_schema" {
           indexable   = true
           retrievable = true
         }
+        # The status of the organisation. Only applies to organisations.
+        organisation_status = {
+          type        = "string"
+          retrievable = true
+        }
+        # The organisation type identifier, like 'department'. Only applies to organisations.
+        organisation_type = {
+          type        = "string"
+          retrievable = true
+        }
+        # The organisation abbreviation, like 'ds'. Only applies to organisations.
+        organisation_abbreviation = {
+          type        = "string"
+          retrievable = true
+        }
         # Metadata that is only used for debugging purposes
         debug = {
           type        = "object"
