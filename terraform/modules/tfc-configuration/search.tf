@@ -11,7 +11,7 @@ module "search-integration" {
   working_directory   = "/terraform/modules/search/"
   trigger_patterns    = ["/terraform/modules/search/**/*"]
   global_remote_state = true
-  allow_destroy_plan  = false
+  allow_destroy_plan  = true
 
   project_name = "publishing-platform-infrastructure"
 
@@ -48,7 +48,7 @@ module "search-production" {
   working_directory   = "/terraform/modules/search/"
   trigger_patterns    = ["/terraform/modules/search/**/*"]
   global_remote_state = true
-  allow_destroy_plan  = false
+  allow_destroy_plan  = true
 
   project_name = "publishing-platform-infrastructure"
 
