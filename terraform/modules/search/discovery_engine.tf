@@ -19,7 +19,8 @@ resource "google_discovery_engine_data_store" "publishing_platform_data_Store" {
       # TODO: Annoyingly, this field is not updatable by us, but can change internally (and indeed
       # has changed in integration after some engine experiments). This means we need to ignore
       # changes to it to avoid unnecessary resource replacements.
-      solution_types
+      solution_types,
+      document_processing_config
     ]
   }
 }
