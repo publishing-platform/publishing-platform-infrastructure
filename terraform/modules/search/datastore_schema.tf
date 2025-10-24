@@ -75,15 +75,6 @@ resource "restapi_object" "google_discovery_engine_datastore_schema" {
           type        = "string"
           retrievable = true
         }
-        # Incrementing document version number (used to avoid document update race conditions)
-        #
-        # Note: We've decided not to use this in the end as there isn't enough of a risk and we
-        # cannot guarantee atomic writes anyway. It is now included in the `debug` object field.
-        # Vertex does not support removing a field from the schema (as of Jan 2024) so it stays
-        # here.
-        payload_version = {
-          type = "integer"
-        }
         # Metadata that is only used for debugging purposes
         debug = {
           type        = "object"
