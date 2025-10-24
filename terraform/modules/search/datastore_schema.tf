@@ -40,14 +40,14 @@ resource "restapi_object" "google_discovery_engine_datastore_schema" {
           keyPropertyMapping = "description"
           retrievable        = true
         }
-        # URI reference either as a relative path for GOV.UK content, or as an absolute URL for
+        # URI reference either as a relative path for Publishing Platform content, or as an absolute URL for
         # external content (used to link to the content from search results)
         link = {
           type        = "string"
           retrievable = true
           indexable   = true
         }
-        # Absolute URL including protocol and host even for content on GOV.UK proper (used for
+        # Absolute URL including protocol and host even for content on Publishing Platform proper (used for
         # Vertex to incorporate popularity/event signals and for internal purposes)
         url = {
           type               = "string"
