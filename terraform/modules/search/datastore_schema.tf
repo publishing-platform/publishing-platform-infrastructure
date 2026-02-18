@@ -60,6 +60,18 @@ resource "restapi_object" "google_discovery_engine_datastore_schema" {
           indexable   = true
           retrievable = true
         }
+        # Unix timestamp of when this object was last updated (for sorting/filtering/boosting)
+        public_timestamp = {
+          type        = "integer"
+          indexable   = true
+          retrievable = true
+        }
+        # RFC3339 timestamp of when this object was last updated (for boosting and displaying)
+        public_timestamp_datetime = {
+          type        = "datetime"         
+          indexable   = true
+          retrievable = true
+        }        
         # The status of the organisation. Only applies to organisations.
         organisation_status = {
           type        = "string"
