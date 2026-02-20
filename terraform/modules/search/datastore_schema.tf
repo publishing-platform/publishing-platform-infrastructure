@@ -87,6 +87,11 @@ resource "restapi_object" "google_discovery_engine_datastore_schema" {
           type        = "string"
           retrievable = true
         }
+        slug = {
+          type        = "string"
+          indexable   = true
+          retrievable = true
+        }
         # Metadata that is only used for debugging purposes
         debug = {
           type        = "object"
