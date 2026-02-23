@@ -46,11 +46,6 @@ jobs:
         pr_title="Release v$next_ver"
         pr_desc="This is an automated PR to bump the version number to $next_ver. This is a patch-level bump, as the only changes since v$curr_ver are dependency updates made by Dependabot."
 
-        if ! [[ -r CHANGELOG.md ]]; then
-          echo "CHANGELOG.md not found or not readable. Exiting."
-          exit 0
-        fi
-
         if ! grep -qR --include "version.rb" --include "*.gemspec" "$curr_ver"; then
           echo "Can't find version.rb or *.gemspec containing the string '$curr_ver'. Exiting."
           exit 0
