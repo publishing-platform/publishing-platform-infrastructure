@@ -61,11 +61,6 @@ jobs:
           exit 0
         fi
 
-        if [ "$(git log "v$curr_ver..main" --no-merges --format=format:%an | sort | uniq)" != "dependabot[bot]" ]; then
-          echo "Gem has unreleased changes from users other than Dependabot. Exiting."
-          exit 0
-        fi
-
         find . -type f \( -iname "version.rb" -o -iname "*.gemspec" \) -exec sed -i "0,/$curr_ver/s//${next_ver}/" {} \;
 
         git config --global user.name "Publishing Platform Continuous Integration User"
