@@ -83,7 +83,7 @@ jobs:
         cd terraform/modules
         tflint --version
         tflint --init --recursive 
-        tflint --format compact --module --recursive --force \
+        tflint --format compact --call-module-type=all --recursive --force \
             --enable-rule=terraform_comment_syntax \
             --enable-rule=terraform_deprecated_index \
             --enable-rule=terraform_required_providers \
