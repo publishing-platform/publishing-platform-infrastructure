@@ -81,4 +81,4 @@ RUN aws --version ; \
     host -V
 
 CMD ["/bin/bash"]
-LABEL org.opencontainers.image.source=https://github.com/alphagov/govuk-infrastructure/tree/main/images/toolbox/
+LABEL org.opencontainers.image.source=https://github.com/publishing-platform/publishing-platform-infrastructure/tree/main/images/toolbox/
