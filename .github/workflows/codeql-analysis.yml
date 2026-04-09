@@ -2,14 +2,16 @@ name: CodeQL Analysis
 
 on:
   workflow_call:
+    inputs:
+      languages:
+        # see https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning#changing-the-languages-that-are-analyzed
+        description: Languages to analyse. Defaults to languages of found file extensions
+        required: false
+        type: string
 
 jobs:
   analyze:
     name: Analyze
-    permissions:
-      contents: read
-      security-events: write
-      actions: read
     runs-on: ubuntu-latest
     continue-on-error: true
     timeout-minutes: 120
@@ -38,6 +40,7 @@ jobs:
                 # ensure that developers are not distracted by low severity, none issues.
                 # Explanation of security severity scores: https://docs.github.com/en/code-security/code-scanning/managing-code-scanning-alerts/about-code-scanning-alerts#about-security-severity-levels
                 security-severity: /([7-9]|10)\.(\d)+/
+        languages: ${{ inputs.languages }}
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@0d579ffd059c29b07949a3cce3983f0780820c98 # v4.32.6
