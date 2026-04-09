@@ -10,6 +10,7 @@ WORKDIR $keyrings_dir
 # hadolint ignore=DL3020
 ADD ${github_apt_repo}/githubcli-archive-keyring.gpg github.gpg
 ADD https://pgp.mongodb.com/server-7.0.pub mongodb.gpg
+ADD https://www.postgresql.org/media/keys/ACCC4CF8.asc apt.postgresql.org.asc
 # hadolint ignore=DL3008
 RUN apt-get update -qq ; \
     apt-get install -qy --no-install-recommends ca-certificates ; \
@@ -18,9 +19,12 @@ RUN apt-get update -qq ; \
     echo "deb [arch=${TARGETARCH} signed-by=${keyrings_dir}/mongodb.gpg] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" > /etc/apt/sources.list.d/mongodb.list ; \
     apt-get update -qq ; \
     apt-get install -qy --no-install-recommends \
-        curl file gh git jq libarchive-tools mysql-client netcat-openbsd \
-        postgresql-client pv wget2 gettext mongodb-mongosh \
-        mongodb-database-tools redis-tools ; \
+        curl dnsutils file gh git jq libarchive-tools mysql-client netcat-openbsd \
+        postgresql-common pv wget2 gettext mongodb-mongosh=2.2.10 \
+        mongodb-database-tools=100.9.4 redis-tools ; \
+    /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y ; \
+    apt-get install -qy --no-install-recommends \
+        postgresql-client-17 ; \
     rm -fr /var/lib/apt/lists/*
 
 ARG yq_package_url=https://github.com/mikefarah/yq/releases/latest/download
@@ -39,7 +43,19 @@ RUN curl -Ssf "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" \
     chmod +x "${awscli_install_dir}/aws/dist/aws"
 ENV PATH=$PATH:$awscli_install_dir/aws/dist
 
-COPY --from=peakcom/s5cmd:v2.2.2 s5cmd /bin/s5cmd
+ARG kubernetes_version=v1.34
+# hadolint ignore=DL3008
+RUN curl -fsSL "https://pkgs.k8s.io/core:/stable:/${kubernetes_version}/deb/Release.key" | \
+  gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg && \
+  chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg && \
+  echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/${kubernetes_version}/deb/ /" | \
+  tee /etc/apt/sources.list.d/kubernetes.list && \
+  chmod 644 /etc/apt/sources.list.d/kubernetes.list && \
+  apt-get update -qq && \
+  apt-get install -qy --no-install-recommends kubectl && \
+  rm -fr /var/lib/apt/lists/* /tmp/*
+
+COPY --from=peakcom/s5cmd:v2.3.0 s5cmd /bin/s5cmd
 
 RUN groupadd -g 1001 user ; \
     useradd -mu 1001 -g user user
@@ -54,9 +70,15 @@ RUN aws --version ; \
     mongodump --version ; \
     mysql --version ; \
     psql --version ; \
+    pg_dump --version ; \
+    createdb --version ; \
+    dropdb --version ; \
     redis-cli --version ; \
     echo -n "s5cmd "; s5cmd version ; \
-    yq --version
+    yq --version ; \
+    kubectl version --client ; \
+    dig -v ; \
+    host -V
 
 CMD ["/bin/bash"]
-LABEL org.opencontainers.image.source=https://github.com/publishing-platform/publishing-platform-infrastructure/tree/main/images/toolbox/
+LABEL org.opencontainers.image.source=https://github.com/alphagov/govuk-infrastructure/tree/main/images/toolbox/
