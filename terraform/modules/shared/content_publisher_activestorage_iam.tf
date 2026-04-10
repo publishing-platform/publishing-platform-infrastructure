@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "content_publisher_activestorage_replication_role
 }
 
 resource "aws_iam_role" "content_publisher_activestorage_replication_role" {
-  name               = "publishing-platform-content-publisher-activestorage-replication-role"
+  name               = "content-publisher-activestorage-replication-role"
   assume_role_policy = data.aws_iam_policy_document.content_publisher_activestorage_replication_role.json
 }
 
