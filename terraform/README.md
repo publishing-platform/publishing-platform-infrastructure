@@ -48,3 +48,8 @@ When destroying an environment run the destroy plans in reverse order.
     ```
 
     The Kubernetes cluster has created EC2 Load Balancers and Elastic Network Interfaces (ENI) in this subnet.  Because they are not managed by Terraform they will need to be manually deleted before the destroy plan will succeed.
+
+    Other resources not created by Terraform that should be manually deleted:
+
+    - EC2 Volumes (e.g. for redis)
+    - EC2 Security Groups for Kubernetes Load Balancers
