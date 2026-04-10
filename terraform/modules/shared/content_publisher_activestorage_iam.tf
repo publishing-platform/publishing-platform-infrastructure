@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "content_publisher_activestorage_replication_role
 }
 
 resource "aws_iam_role" "content_publisher_activestorage_replication_role" {
-  name               = "content-publisher-activestorage-replication-role"
+  name               = "publishing-platform-content-publisher-replication-role"
   assume_role_policy = data.aws_iam_policy_document.content_publisher_activestorage_replication_role.json
 }
 
@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "content_publisher_activestorage_replication_poli
 }
 
 resource "aws_iam_policy" "content_publisher_activestorage_replication_policy" {
-  name        = "publishing-platform-${var.publishing_platform_environment}-content-publisher-activestorage-replication-policy"
+  name        = "publishing-platform-${var.publishing_platform_environment}-content-publisher-replication-policy"
   policy      = data.aws_iam_policy_document.content_publisher_activestorage_replication_policy.json
   description = "Allows replication of the content publisher activestorage bucket"
 }
