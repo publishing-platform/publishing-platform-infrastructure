@@ -1,5 +1,5 @@
 # Amazon MQ user passwords
-# publishing-infrastructure
+# TODO: move to publishing-infrastructure
 resource "random_password" "mq_user" {
   for_each = toset([
     "root",
