@@ -16,11 +16,13 @@ locals {
   }
 
   managed_node_group_defaults = {
-    capacity_type         = var.workers_default_capacity_type
-    subnet_ids            = [for s in aws_subnet.eks_private : s.id]
-    create_security_group = false
-    create_iam_role       = false
-    iam_role_arn          = aws_iam_role.node.arn
+    capacity_type                  = var.workers_default_capacity_type
+    subnet_ids                     = [for s in aws_subnet.eks_private : s.id]
+    create_security_group          = false
+    create_iam_role                = false
+    iam_role_arn                   = aws_iam_role.node.arn
+    enable_efa_only                = false
+    use_latest_ami_release_version = false
   }
 
   x86_managed_node_group = {
