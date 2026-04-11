@@ -7,7 +7,7 @@ module "variable-set-production" {
     publishing_platform_environment = "production"
     publishing_service_domain       = "production.publishing.service.publishing-platform.co.uk"
 
-    cluster_version               = "1.31"
+    cluster_version               = "1.32"
     cluster_log_retention_in_days = 7
 
     vpc_cidr = "10.13.0.0/16"
