@@ -3,6 +3,11 @@ output "cluster_id" {
   value       = module.eks.cluster_name
 }
 
+output "cluster_oidc_provider" {
+  description = "The OpenID Connect provider for the EKS cluster (without https://)"
+  value       = module.eks.oidc_provider
+}
+
 output "worker_iam_role_arn" {
   description = "IAM role ARN for EKS worker node groups"
   value       = aws_iam_role.node.arn
