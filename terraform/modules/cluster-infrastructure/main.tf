@@ -117,9 +117,16 @@ module "eks" {
   vpc_id             = data.tfe_outputs.vpc.nonsensitive_values.vpc_id
 
   addons = {
-    coredns    = { most_recent = true, resolve_conflicts_on_create = "OVERWRITE" }
-    kube-proxy = { most_recent = true, resolve_conflicts_on_create = "OVERWRITE" }
-    vpc-cni    = { most_recent = true, resolve_conflicts_on_create = "OVERWRITE" }
+    coredns    = { addon_version = "v1.13.2-eksbuild.4", resolve_conflicts_on_create = "OVERWRITE" }
+    kube-proxy = { addon_version = "v1.33.10-eksbuild.2", resolve_conflicts_on_create = "OVERWRITE" }
+    vpc-cni = {
+      addon_version               = "v1.21.1-eksbuild.7",
+      resolve_conflicts_on_create = "OVERWRITE",
+      before_compute              = true
+      configuration_values = jsonencode({
+        enableNetworkPolicy = "true"
+      })
+    }
   }
 
   endpoint_public_access                 = true
