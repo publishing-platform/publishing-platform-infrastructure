@@ -82,12 +82,13 @@ jobs:
       run: |
         cd terraform/modules
         tflint --version
-        tflint --init --recursive 
+        tflint --init --recursive -c ${{ github.workspace }}/.tflint.hcl
         tflint --format compact --call-module-type=all --recursive --force \
+            -c ${{ github.workspace }}/.tflint.hcl \
             --enable-rule=terraform_comment_syntax \
             --enable-rule=terraform_deprecated_index \
             --enable-rule=terraform_required_providers \
             --enable-rule=terraform_standard_module_structure \
             --enable-rule=terraform_typed_variables \
             --enable-rule=terraform_unused_declarations \
-            --enable-rule=terraform_unused_required_providers        
+            --enable-rule=terraform_unused_required_providers
