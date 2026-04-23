@@ -45,7 +45,7 @@ output "node_security_group_id" {
 
 output "aws_lb_controller_role_arn" {
   description = "IAM role ARN corresponding to the k8s service account for the AWS Load Balancer Controller."
-  value       = module.aws_lb_controller_iam_role.iam_role_arn
+  value       = module.aws_lb_controller_iam_role.arn
 }
 
 output "aws_lb_controller_service_account_name" {
@@ -65,5 +65,5 @@ output "external_secrets_service_account_name" {
 
 output "external_secrets_role_arn" {
   description = "IAM role ARN corresponding to the k8s service account for external-secrets."
-  value       = module.external_secrets_iam_role.iam_role_arn
+  value       = module.external_secrets_iam_role.arn
 }
