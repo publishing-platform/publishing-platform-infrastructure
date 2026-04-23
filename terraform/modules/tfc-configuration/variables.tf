@@ -25,5 +25,5 @@ variable "project_names" {
 variable "terraform_version" {
   type        = string
   description = "Version constraint for Terraform for this workspace."
-  default     = "~> 1.10.5"
+  default     = "~> 1.14.8"
 }
