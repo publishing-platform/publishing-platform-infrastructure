@@ -1,18 +1,85 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
-  "platformAutomerge": false,
-  "enabledManagers": [
-    "github-actions",
-    "terraform"
-  ],
-  "terraform": {
-    "fileMatch": [
-      "^/terraform/.*\\.tf$"
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        "helpers:pinGitHubActionDigests"
+    ],
+    "platformAutomerge": true,
+    "pre-commit": {
+        "enabled": true
+    },
+    "enabledManagers": [
+        "github-actions",
+        "pre-commit",
+        "terraform",
+        "custom.regex"
+    ],
+    "terraform": {
+        "managerFilePatterns": [
+            "/^/terraform/.*\\.tf$/"
+        ]
+    },
+    "prHourlyLimit": 20,
+    "prConcurrentLimit": 20,
+    "labels": [
+        "dependencies",
+        "renovate"
+    ],
+    "packageRules": [
+        {
+            "matchDatasources": [
+                "aws-eks-addon"
+            ],
+            "minimumReleaseAge": "10 days"
+        },
+        {
+            "matchManagers": [
+                "custom.regex"
+            ],
+            "matchDepNames": [
+                "Terraform Version"
+            ],
+            "groupName": "Terraform Version",
+            "minimumReleaseAge": "10 days"
+        },
+        {
+            "matchManagers": [
+                "terraform"
+            ],
+            "matchDepTypes": [
+                "required_version"
+            ],
+            "rangeStrategy": "bump",
+            "groupName": "Terraform required_version",
+            "minimumReleaseAge": "10 days"
+        }
+    ],
+    "customManagers": [
+        {
+            "customType": "regex",
+            "managerFilePatterns": [
+                "/.*cluster-infrastructure\\/main\\.tf/"
+            ],
+            "matchStrings": [
+                "(?<depName>kube-proxy|vpc-cni|coredns)\\s+=\\s+\\{\\s+addon_version\\s+=\\s+\"(?<currentValue>[a-zA-Z0-9-_.]+)\""
+            ],
+            "packageNameTemplate": "{\"kubernetesVersion\": \"1.33\", \"addonName\": \"{{depName}}\", \"region\": \"eu-west-2\"}",
+            "depNameTemplate": "{{depName}}",
+            "datasourceTemplate": "aws-eks-addon",
+            "versioningTemplate": "aws-eks-addon"
+        },
+        {
+            "customType": "regex",
+            "managerFilePatterns": [
+                "/.*tfc-configuration\\/variables\\.tf/"
+            ],
+            "matchStrings": [
+                "default\\s+=\\s+\"~>\\s+(?<currentValue>[0-9.]+)\""
+            ],
+            "packageNameTemplate": "hashicorp/terraform",
+            "depNameTemplate": "Terraform Version",
+            "datasourceTemplate": "github-releases",
+            "versioningTemplate": "github-releases"
+        }
     ]
-  },
-  "prHourlyLimit": 20,
-  "labels": ["dependencies", "renovate"]
 }
