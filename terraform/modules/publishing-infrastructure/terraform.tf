@@ -8,7 +8,7 @@ terraform {
     }
   }
 
-  required_version = "~> 1.10"
+  required_version = "~> 1.14"
 
   required_providers {
     aws = {
@@ -18,7 +18,7 @@ terraform {
 
     tfe = {
       source  = "hashicorp/tfe"
-      version = "~> 0.55.0"
+      version = "~> 0.74.0"
     }
   }
 }

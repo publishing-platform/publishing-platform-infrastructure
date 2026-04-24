@@ -1,6 +1,6 @@
 module "rds-production" {
   source  = "alexbasista/workspacer/tfe"
-  version = "0.10.0"
+  version = "0.15.0"
 
   organization        = var.organization
   workspace_name      = "rds-production"
@@ -38,7 +38,7 @@ module "rds-production" {
 # This module exists purely to decouple rds and cluster-infrastructure modules and will be removed in future.
 module "rds-security-production" {
   source  = "alexbasista/workspacer/tfe"
-  version = "0.10.0"
+  version = "0.15.0"
 
   organization        = var.organization
   workspace_name      = "rds-security-production"

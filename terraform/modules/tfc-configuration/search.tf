@@ -1,6 +1,6 @@
 module "search-integration" {
   source  = "alexbasista/workspacer/tfe"
-  version = "0.10.0"
+  version = "0.15.0"
 
   organization        = var.organization
   workspace_name      = "search-integration"
@@ -37,7 +37,7 @@ module "search-integration" {
 
 module "search-production" {
   source  = "alexbasista/workspacer/tfe"
-  version = "0.10.0"
+  version = "0.15.0"
 
   organization        = var.organization
   workspace_name      = "search-production"
@@ -74,7 +74,7 @@ module "search-production" {
 
 module "search-secrets-production" {
   source  = "alexbasista/workspacer/tfe"
-  version = "0.10.0"
+  version = "0.15.0"
 
   organization        = var.organization
   workspace_name      = "search-secrets-production"

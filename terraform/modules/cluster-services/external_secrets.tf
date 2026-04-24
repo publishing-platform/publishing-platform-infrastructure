@@ -8,7 +8,7 @@ resource "helm_release" "external_secrets" {
   name             = "external-secrets"
   repository       = "https://charts.external-secrets.io"
   chart            = "external-secrets"
-  version          = "0.16.1" # TODO: Dependabot or equivalent so this doesn't get neglected.
+  version          = "1.0.0" # TODO: Dependabot or equivalent so this doesn't get neglected.
   namespace        = local.services_ns
   create_namespace = true
   values = [yamlencode({
@@ -47,14 +47,14 @@ resource "helm_release" "cluster_secret_store" {
 
 # Required by cluster-secrets chart, but it won't create it itself
 # (even if create_namespace = true is set)
-resource "kubernetes_namespace" "monitoring" {
+resource "kubernetes_namespace_v1" "monitoring" {
   metadata {
     name = local.monitoring_ns
   }
 }
 
 resource "helm_release" "cluster_secrets" {
-  depends_on = [helm_release.cluster_secret_store, kubernetes_namespace.monitoring]
+  depends_on = [helm_release.cluster_secret_store, kubernetes_namespace_v1.monitoring]
 
   chart      = "cluster-secrets"
   name       = "cluster-secrets"

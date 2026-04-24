@@ -22,7 +22,7 @@ locals {
   }
 }
 
-resource "kubernetes_namespace" "apps" {
+resource "kubernetes_namespace_v1" "apps" {
   metadata {
     name = var.apps_namespace
     annotations = {
@@ -50,7 +50,7 @@ resource "helm_release" "argo_cd" {
   namespace        = local.services_ns
   create_namespace = true
   repository       = "https://argoproj.github.io/argo-helm"
-  version          = "7.8.28" # TODO: Dependabot or equivalent so this doesn't get neglected.
+  version          = "9.4.15" # TODO: Dependabot or equivalent so this doesn't get neglected.
   timeout          = var.helm_timeout_seconds
   values = [yamlencode({
     global = {
@@ -73,7 +73,11 @@ resource "helm_release" "argo_cd" {
 
       # We terminate TLS at the ALB (L7 LB inside the VPC network), so tell
       # argo-cd-server not to redirect to HTTPS.
-      params = { "server.insecure" = true }
+      params = {
+        "server.insecure"                 = true
+        "controller.sync.timeout.seconds" = 300
+        "applicationsetcontroller.policy" = "sync"
+      }
 
       rbac = {
         "policy.csv" = <<-EOT
@@ -184,7 +188,7 @@ resource "helm_release" "argo_workflows" {
   namespace        = local.services_ns
   create_namespace = true
   repository       = "https://argoproj.github.io/argo-helm"
-  version          = "0.45.16" # TODO: Dependabot or equivalent so this doesn't get neglected.
+  version          = "1.0.6" # TODO: Dependabot or equivalent so this doesn't get neglected.
   timeout          = var.helm_timeout_seconds
   values = [yamlencode({
     controller = {
