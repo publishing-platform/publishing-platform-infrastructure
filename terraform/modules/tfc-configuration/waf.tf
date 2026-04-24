@@ -1,6 +1,6 @@
 module "waf-production" {
   source  = "alexbasista/workspacer/tfe"
-  version = "0.10.0"
+  version = "0.15.0"
 
   organization        = var.organization
   workspace_name      = "waf-production"

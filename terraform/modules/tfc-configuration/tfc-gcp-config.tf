@@ -1,6 +1,6 @@
 module "tfc-gcp-config-integration" {
   source  = "alexbasista/workspacer/tfe"
-  version = "0.10.0"
+  version = "0.15.0"
 
   organization        = var.organization
   workspace_name      = "tfc-gcp-config-integration"
@@ -16,7 +16,7 @@ module "tfc-gcp-config-integration" {
 
 module "tfc-gcp-config-production" {
   source  = "alexbasista/workspacer/tfe"
-  version = "0.10.0"
+  version = "0.15.0"
 
   organization        = var.organization
   workspace_name      = "tfc-gcp-config-production"
