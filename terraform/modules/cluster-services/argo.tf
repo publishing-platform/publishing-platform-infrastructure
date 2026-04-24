@@ -22,7 +22,7 @@ locals {
   }
 }
 
-resource "kubernetes_namespace" "apps" {
+resource "kubernetes_namespace_v1" "apps" {
   metadata {
     name = var.apps_namespace
     annotations = {
