@@ -36,7 +36,7 @@ resource "helm_release" "cluster_secret_store" {
   name       = "cluster-secret-store"
   repository = "https://publishing-platform.github.io/publishing-platform-helm-charts/"
   chart      = "cluster-secret-store"
-  version    = "0.1.1" # TODO: Dependabot or equivalent so this doesn't get neglected.
+  version    = "0.2.0" # TODO: Dependabot or equivalent so this doesn't get neglected.
   namespace  = local.services_ns
   timeout    = var.helm_timeout_seconds
   values = [yamlencode({
@@ -60,6 +60,6 @@ resource "helm_release" "cluster_secrets" {
   name       = "cluster-secrets"
   namespace  = local.services_ns
   repository = "https://publishing-platform.github.io/publishing-platform-helm-charts/"
-  version    = "0.9.5" # TODO: Dependabot or equivalent so this doesn't get neglected.
+  version    = "0.10.0" # TODO: Dependabot or equivalent so this doesn't get neglected.
   timeout    = var.helm_timeout_seconds
 }

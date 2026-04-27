@@ -163,7 +163,7 @@ resource "helm_release" "argo_bootstrap" {
   namespace        = local.services_ns
   create_namespace = true
   repository       = "https://publishing-platform.github.io/publishing-platform-helm-charts/"
-  version          = "0.3.3" # TODO: Dependabot or equivalent so this doesn't get neglected.
+  version          = "0.4.0" # TODO: Dependabot or equivalent so this doesn't get neglected.
   timeout          = var.helm_timeout_seconds
   values = [yamlencode({
     # TODO: This TF module should not need to know the publishing_platform_environment, since
