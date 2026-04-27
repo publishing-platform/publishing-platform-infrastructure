@@ -1,14 +1,14 @@
 module "waf-production" {
   source = "github.com/alphagov/terraform-govuk-tfe-workspacer"
 
-  organization        = var.organization
-  workspace_name      = "waf-production"
-  workspace_desc      = "This module manages the web application firewall."
-  workspace_tags      = ["production", "waf", "eks", "aws"]
-  terraform_version   = var.terraform_version
-  execution_mode      = "remote"
-  working_directory   = "/terraform/modules/waf/"
-  trigger_patterns    = [
+  organization      = var.organization
+  workspace_name    = "waf-production"
+  workspace_desc    = "This module manages the web application firewall."
+  workspace_tags    = ["production", "waf", "eks", "aws"]
+  terraform_version = var.terraform_version
+  execution_mode    = "remote"
+  working_directory = "/terraform/modules/waf/"
+  trigger_patterns = [
     "/terraform/modules/waf/**/*",
     "/terraform/variables/production/common.tfvars",
     "/terraform/variables/variables-common.tf",
@@ -27,7 +27,7 @@ module "waf-production" {
   tfvars_files = [
     "production/common.tfvars",
     "production/waf.tfvars"
-  ]  
+  ]
 
   variable_set_names = [
     "aws-credentials-production"
