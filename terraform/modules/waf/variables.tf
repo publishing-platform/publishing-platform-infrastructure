@@ -1,8 +1,3 @@
-variable "publishing_platform_environment" {
-  type        = string
-  description = "Publishing Platform environment where resources are being deployed"
-}
-
 variable "waf_log_retention_days" {
   type        = number
   description = "The number of days CloudWatch will retain WAF logs for."
