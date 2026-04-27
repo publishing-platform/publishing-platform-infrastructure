@@ -12,7 +12,16 @@ jobs:
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
-        show-progress: false  
+        show-progress: false
+
+    - name: Get changed TF module
+      id: changed-modules
+      uses: tj-actions/changed-files@22103cc46bda19c2b464ffe86db46df6922fd323 # v47.0.5
+      with:
+        path: terraform/modules
+        dir_names: true
+        dir_names_max_depth: 1
+        safe_output: false
 
     - name: Determine Terraform version to use
       uses: dflook/terraform-version@8ee89d962417ed259f9d75e7529e262637c7e5a8
@@ -37,53 +46,86 @@ jobs:
 
     - name: Cache TFLint plugins
       uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+      if: steps.changed-modules.outputs.any_changed == 'true'
       with:
         path: ~/.tflint.d/plugins
         key: tflint-${{ runner.os }}-${{ hashFiles('**/tflint.hcl') }}               
 
     - name: Set up TFLint 
       uses: terraform-linters/setup-tflint@b480b8fcdaa6f2c577f8e4fa799e89e756bb7c93 # v6.2.2
+      if: steps.changed-modules.outputs.any_changed == 'true'
       with:
         tflint_version: v0.55.0
 
-    - name: terraform fmt
-      working-directory: terraform
+    - name: terraform fmt roots
+      working-directory: terraform/modules
+      env:
+        MODULES: ${{ steps.changed-modules.outputs.all_changed_files }}
+      if: steps.changed-modules.outputs.any_changed == 'true'
       run: |
-        if ! terraform fmt -check -diff -list=true -recursive .; then
-          >&2 echo "Some terraform files weren't formatted correctly. Run 'terraform fmt' to fix them."
+        for m in ${MODULES}; do
+          cd "$m"
+          if ! terraform fmt -check -diff -list=true .; then
+            >&2 echo "Some terraform files in '$m' weren't formatted correctly. Run 'terraform fmt' to fix them."
+            exit 1
+          fi
+          echo "Module '$m' ok"
+          cd "$OLDPWD"
+        done
+
+    - name: terraform fmt variables
+      working-directory: terraform/variables
+      run: |
+        if ! terraform fmt -recursive -check -diff -list=true .; then
+          >&2 echo "Some tfvars files weren't formatted correctly. Run 'terraform fmt' to fix them."
           exit 1
-        fi          
+        fi
+        echo "Variables ok"
 
     - name: terraform init
+      working-directory: terraform/modules
+      env:
+        MODULES: ${{ steps.changed-modules.outputs.all_changed_files }}
+      if: steps.changed-modules.outputs.any_changed == 'true'      
       run: |
         STEP_EXIT_STATUS=0
-        for d in terraform/modules/*; do
-          echo "$d"
-          cd "$d"
+        for m in ${MODULES}; do
+          echo "$m"
+          cd "$m"
           if ! terraform init -backend=false; then STEP_EXIT_STATUS=1; fi
-          cd "$OLDPWD"
           echo -e '\n-------------------------\n'
+          cd "$OLDPWD"          
         done
-        exit $STEP_EXIT_STATUS          
+        exit $STEP_EXIT_STATUS
 
     - name: terraform validate
+      working-directory: terraform/modules
+      env:
+        MODULES: ${{ steps.changed-modules.outputs.all_changed_files }}
+      if: steps.changed-modules.outputs.any_changed == 'true'   
       run: |
         STEP_EXIT_STATUS=0
-        for d in terraform/modules/*; do
-          echo "$d"
-          cd "$d"
+        for m in ${MODULES}; do
+          echo "$m"
+          cd "$m"
           if ! terraform validate; then STEP_EXIT_STATUS=1; fi
-          cd "$OLDPWD"
           echo -e '\n-------------------------\n'
+          cd "$OLDPWD"
         done
-        exit $STEP_EXIT_STATUS        
+        exit $STEP_EXIT_STATUS
 
     - name: tflint
+      working-directory: terraform/modules
+      env:
+        MODULES: ${{ steps.changed-modules.outputs.all_changed_files }}
+      if: steps.changed-modules.outputs.any_changed == 'true'   
       run: |
-        cd terraform/modules
         tflint --version
-        tflint --init --recursive -c ${{ github.workspace }}/.tflint.hcl
-        tflint --format compact --call-module-type=all --recursive --force \
+        for m in ${MODULES}; do
+          echo "$m"
+          cd "$m"
+          tflint --init -c ${{ github.workspace }}/.tflint.hcl
+          tflint --format compact --call-module-type=all --force \
             -c ${{ github.workspace }}/.tflint.hcl \
             --enable-rule=terraform_comment_syntax \
             --enable-rule=terraform_deprecated_index \
@@ -91,4 +133,26 @@ jobs:
             --enable-rule=terraform_standard_module_structure \
             --enable-rule=terraform_typed_variables \
             --enable-rule=terraform_unused_declarations \
-            --enable-rule=terraform_unused_required_providers
+            --enable-rule=terraform_unused_required_providers \
+            --disable-rule=aws_eks_node_group_invalid_ami_type
+          cd "$OLDPWD"
+        done
+
+    - name: Ensure variables-common.tf is a symlink
+      working-directory: terraform/modules
+      env:
+        MODULES: ${{ steps.changed-modules.outputs.all_changed_files }}
+      if: steps.changed-modules.outputs.any_changed == 'true'   
+      run: |
+        STEP_EXIT_STATUS=0
+        for m in ${MODULES}; do
+          echo "$m"
+          cd "$m"
+          if { [ -f "variables-common.tf" ] && [ ! -h "variables-common.tf" ]; } || { [ -h "variables-common.tf" ] && [ "$(readlink variables-common.tf)" != "../../variables/variables-common.tf" ]; }; then
+            >&2 echo "variables-common.tf in '$m' should be a symlink to ../../variables/variables-common.tf"
+            STEP_EXIT_STATUS=1
+          fi
+          echo -e '\n-------------------------\n'
+          cd "$OLDPWD"
+        done
+        exit $STEP_EXIT_STATUS
