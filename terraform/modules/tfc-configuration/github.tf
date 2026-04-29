@@ -22,13 +22,10 @@ module "github-production" {
   }
 
   variable_set_names = [
-    # "common",
-    "common-production",
     "github-production"
   ]
 
   depends_on = [
-    module.variable-set-production,
     module.variable-set-github-production
   ]
 }
