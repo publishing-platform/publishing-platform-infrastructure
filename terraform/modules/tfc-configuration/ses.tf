@@ -1,13 +1,13 @@
 module "ses-production" {
   source = "github.com/alphagov/terraform-govuk-tfe-workspacer"
 
-  organization        = var.organization
-  workspace_name      = "ses-production"
-  workspace_desc      = "This module manages the AWS Simple Email Service (SES) used by applications to send emails."
-  workspace_tags      = ["production", "ses", "eks", "aws"]
-  terraform_version   = var.terraform_version
-  execution_mode      = "remote"
-  working_directory   = "/terraform/modules/ses/"
+  organization      = var.organization
+  workspace_name    = "ses-production"
+  workspace_desc    = "This module manages the AWS Simple Email Service (SES) used by applications to send emails."
+  workspace_tags    = ["production", "ses", "eks", "aws"]
+  terraform_version = var.terraform_version
+  execution_mode    = "remote"
+  working_directory = "/terraform/modules/ses/"
   trigger_patterns = [
     "/terraform/modules/ses/**/*",
     "/terraform/variables/production/common.tfvars",
