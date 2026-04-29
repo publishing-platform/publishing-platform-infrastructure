@@ -1,15 +1,19 @@
 module "rds-production" {
-  source  = "alexbasista/workspacer/tfe"
-  version = "0.15.0"
+  source = "github.com/alphagov/terraform-govuk-tfe-workspacer"
 
-  organization        = var.organization
-  workspace_name      = "rds-production"
-  workspace_desc      = "This module manages AWS resources for creating RDS databases."
-  workspace_tags      = ["production", "rds", "eks", "aws"]
-  terraform_version   = var.terraform_version
-  execution_mode      = "remote"
-  working_directory   = "/terraform/modules/rds/"
-  trigger_patterns    = ["/terraform/modules/rds/**/*"]
+  organization      = var.organization
+  workspace_name    = "rds-production"
+  workspace_desc    = "This module manages AWS resources for creating RDS databases."
+  workspace_tags    = ["production", "rds", "eks", "aws"]
+  terraform_version = var.terraform_version
+  execution_mode    = "remote"
+  working_directory = "/terraform/modules/rds/"
+  trigger_patterns = [
+    "/terraform/modules/rds/**/*",
+    "/terraform/variables/production/common.tfvars",
+    "/terraform/variables/variables-common.tf",
+    "/terraform/variables/production/rds.tfvars"
+  ]
   global_remote_state = true
   allow_destroy_plan  = false
 
@@ -21,17 +25,17 @@ module "rds-production" {
     oauth_token_id = data.tfe_oauth_client.github.oauth_token_id
   }
 
+  tfvars_files = [
+    "production/common.tfvars",
+    "production/rds.tfvars"
+  ]
+
   variable_set_names = [
-    "aws-credentials-production",
-    # "common",
-    "common-production",
-    "rds-production"
+    "aws-credentials-production"
   ]
 
   depends_on = [
-    module.variable-set-aws-credentials-production,
-    module.variable-set-production,
-    module.variable-set-rds-production
+    module.variable-set-aws-credentials-production
   ]
 }
 
