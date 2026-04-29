@@ -32,32 +32,6 @@ module "variable-set-production" {
   }
 }
 
-module "variable-set-ecr-production" {
-  source = "./variable-set"
-
-  name         = "ecr-production"
-  organization = var.organization
-  tfvars = {
-  }
-}
-
-# This has to be separate because the ':' get replaced with '='
-#  by the var set module
-resource "tfe_variable" "ecr-puller-arns" {
-  variable_set_id = module.variable-set-ecr-production.variable_set_id
-  key             = "puller_arns"
-  category        = "terraform"
-  value = jsonencode(
-    [
-      "arn:aws:iam::761018850167:root", # Production
-      # "arn:aws:iam::xxxxxxxxxxxx:root", # Staging
-      # "arn:aws:iam::xxxxxxxxxxxx:root", # Integration
-      # "arn:aws:iam::xxxxxxxxxxxx:root", # Test
-    ]
-  )
-  hcl = true
-}
-
 module "variable-set-github-production" {
   source = "./variable-set"
 

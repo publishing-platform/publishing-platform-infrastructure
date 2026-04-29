@@ -18,3 +18,9 @@ variable "publishing_platform_environment" {
     error_message = "Environment name must be one of production, staging, integration, or test."
   }
 }
+
+variable "force_destroy" {
+  type        = bool
+  default     = false
+  description = "Whether to force destroy resources when removing Terraform resources."
+}
