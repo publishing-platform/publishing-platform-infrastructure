@@ -4,7 +4,7 @@ provider "aws" {
     tags = {
       Product     = "Publishing Platform"
       System      = "GitHub"
-      Environment = var.publishing_platform_environment
+      Environment = "production"
       Repository  = "publishing-platform-infrastructure"
       Workspace   = terraform.workspace
     }
