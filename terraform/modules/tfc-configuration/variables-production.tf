@@ -177,15 +177,6 @@ module "variable-set-publishing-infrastructure-production" {
   }
 }
 
-module "variable-set-ses-production" {
-  source = "./variable-set"
-
-  name         = "ses-production"
-  organization = var.organization
-  tfvars = {
-  }
-}
-
 module "variable-set-search-production" {
   source = "./variable-set"
 
