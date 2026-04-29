@@ -3,13 +3,13 @@
 module "shared-production" {
   source = "github.com/alphagov/terraform-govuk-tfe-workspacer"
 
-  organization        = var.organization
-  workspace_name      = "shared-production"
-  workspace_desc      = "This module manages objects that may be required by other modules."
-  workspace_tags      = ["production", "shared", "eks", "aws"]
-  terraform_version   = var.terraform_version
-  execution_mode      = "remote"
-  working_directory   = "/terraform/modules/shared/"
+  organization      = var.organization
+  workspace_name    = "shared-production"
+  workspace_desc    = "This module manages objects that may be required by other modules."
+  workspace_tags    = ["production", "shared", "eks", "aws"]
+  terraform_version = var.terraform_version
+  execution_mode    = "remote"
+  working_directory = "/terraform/modules/shared/"
   trigger_patterns = [
     "/terraform/modules/shared/**/*",
     "/terraform/variables/production/common.tfvars",
