@@ -3,3 +3,5 @@
 # Variables that are only used by a single workspace should be added to that workspace's specific tfvars file.
 
 publishing_platform_environment = "integration"
+
+vpc_cidr = "10.1.0.0/16"
