@@ -58,12 +58,3 @@ module "variable-set-gcp-credentials-production" {
   tfvars = {
   }
 }
-
-module "variable-set-search-production" {
-  source = "./variable-set"
-
-  name         = "search-production"
-  organization = var.organization
-  tfvars = {
-  }
-}

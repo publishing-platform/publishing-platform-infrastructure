@@ -1,0 +1,1 @@
+# Variables for the search-integration workspace
