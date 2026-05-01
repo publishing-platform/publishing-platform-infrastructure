@@ -19,6 +19,11 @@ variable "publishing_platform_environment" {
   }
 }
 
+variable "publishing_service_domain" {
+  type        = string
+  description = "The publishing domain for this environment."
+}
+
 variable "force_destroy" {
   type        = bool
   default     = false
@@ -35,5 +40,19 @@ variable "vpc_cidr" {
     condition = cidrhost(var.vpc_cidr, 0) != null
 
     error_message = "vpc_cidr must be set to a valid CIDR."
+  }
+}
+
+// Kubernetes
+
+variable "cluster_name" {
+  type        = string
+  default     = "publishing-platform"
+  description = "Name of the EKS cluster for this environment."
+
+  validation {
+    condition = length(var.cluster_name) >= 1 && length(var.cluster_name) <= 100
+
+    error_message = "Length of cluster_name must be between 1 and 100 characters."
   }
 }

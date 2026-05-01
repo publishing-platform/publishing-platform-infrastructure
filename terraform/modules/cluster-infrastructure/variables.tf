@@ -1,9 +1,3 @@
-variable "cluster_name" {
-  type        = string
-  description = "Name for the EKS cluster."
-  default     = "publishing-platform"
-}
-
 variable "cluster_version" {
   type        = string
   description = "Kubernetes release version for the cluster, e.g. 1.21"
@@ -12,16 +6,6 @@ variable "cluster_version" {
 variable "cluster_log_retention_in_days" {
   type        = number
   description = "Number of days to retain cluster log events in CloudWatch."
-}
-
-variable "publishing_platform_environment" {
-  type        = string
-  description = "Publishing Platform environment where resources are being deployed"
-}
-
-variable "vpc_cidr" {
-  type        = string
-  description = "The CIDR block for the VPC."
 }
 
 variable "eks_control_plane_subnets" {
@@ -79,15 +63,4 @@ variable "external_dns_subdomain" {
   type        = string
   description = "Subdomain name for a Route53 zone which will be created underneath external_root_zone (e.g. 'eks' to be created underneath production.publishing-platform.digital), for use by the external-dns addon. external-dns will create records for ALBs/NLBs created by Ingresses and Service[type=LoadBalancer] in this zone."
   default     = "eks"
-}
-
-variable "publishing_service_domain" {
-  type        = string
-  description = "FQDN of the user-facing domain for the publishing apps, e.g. staging.publishing.service.publishing-platform.co.uk. This domain is included as a wildcard SAN on the TLS cert for Ingresses etc."
-}
-
-variable "force_destroy" {
-  type        = bool
-  description = "Setting for force_destroy on resources such as Route53 zones. For use in non-production environments to allow for automated tear-down."
-  default     = false
 }
