@@ -10,17 +10,6 @@ variable "argo_workflows_namespaces" {
   default     = ["apps"]
 }
 
-variable "cluster_name" {
-  type        = string
-  description = "Name for the EKS cluster."
-  default     = "publishing-platform"
-}
-
-variable "publishing_platform_environment" {
-  type        = string
-  description = "Publishing Platform environment where resources are being deployed"
-}
-
 variable "helm_timeout_seconds" {
   type        = number
   description = "Timeout for helm install/upgrade operations."
