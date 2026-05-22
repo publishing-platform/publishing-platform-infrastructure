@@ -67,3 +67,7 @@ output "external_secrets_role_arn" {
   description = "IAM role ARN corresponding to the k8s service account for external-secrets."
   value       = module.external_secrets_iam_role.arn
 }
+
+output "private_subnets" {
+  value = [for sn in aws_subnet.eks_private : sn.id]
+}
