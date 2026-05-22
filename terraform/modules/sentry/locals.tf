@@ -2,6 +2,7 @@ locals {
   common_teams = ["publishing-platform"]
 
   sentry_projects = [
+    "asset-manager",
     "authenticating-proxy",
     "collections-frontend",
     "content-publisher",
