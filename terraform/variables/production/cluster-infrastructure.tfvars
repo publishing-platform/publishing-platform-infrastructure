@@ -1,4 +1,4 @@
-cluster_version               = "1.33"
+cluster_version               = "1.34"
 cluster_log_retention_in_days = 7
 
 eks_control_plane_subnets = {
