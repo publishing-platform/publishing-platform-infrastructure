@@ -123,9 +123,6 @@ module "eks" {
       addon_version               = "v1.21.1-eksbuild.7",
       resolve_conflicts_on_create = "OVERWRITE",
       before_compute              = true
-      configuration_values = jsonencode({
-        enableNetworkPolicy = "true"
-      })
     }
   }
 
