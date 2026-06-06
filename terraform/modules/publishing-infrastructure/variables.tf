@@ -6,7 +6,7 @@ variable "amazonmq_engine_version" {
 
 variable "amazonmq_host_instance_type" {
   type        = string
-  default     = "mq.m5.large"
+  default     = "mq.m7g.medium"
   description = "Instance size for publishing AmazonMQ cluster"
 }
 
