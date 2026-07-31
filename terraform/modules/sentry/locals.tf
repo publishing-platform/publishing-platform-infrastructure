@@ -7,6 +7,7 @@ locals {
     "collections-frontend",
     "content-publisher",
     "content-store",
+    "fact-check-manager",
     "finder-frontend",
     "frontend",
     "organisations-publisher",
