@@ -24,7 +24,7 @@ jobs:
         safe_output: false
 
     - name: Determine Terraform version to use
-      uses: dflook/terraform-version@8ee89d962417ed259f9d75e7529e262637c7e5a8
+      uses: dflook/terraform-version@9bdc85b783013cf125cccab425e545d38d154074
       id: terraform-version
       with:
         path: terraform     
